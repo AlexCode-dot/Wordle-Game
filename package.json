@@ -10,9 +10,13 @@
     "preview": "vite preview",
     "prepare": "husky install",
     "build-css": "sass src/styles/main.scss static/styles/style.css",
-    "watch-css": "sass --watch src/styles/main.scss:static/styles/style.css"
+    "watch-css": "sass --watch src/styles/main.scss:static/styles/style.css",
+    "build-and-start": "vite build && node src/server.js",
+    "start": "node src/server.js"
   },
   "dependencies": {
+    "express": "^4.21.2",
+    "express-handlebars": "^8.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
