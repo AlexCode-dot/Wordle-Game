@@ -11,14 +11,9 @@ export default async function initApp() {
   app.set('view engine', 'handlebars')
   app.set('views', './templates')
 
-  const manifestData = await fs.readFile(
-    'static/dist/.vite/manifest.json',
-    'utf-8'
-  )
+  const manifestData = await fs.readFile('static/dist/.vite/manifest.json', 'utf-8')
   const manifest = JSON.parse(manifestData)
-  const jsFile = manifest['src/react/main.jsx']
-    ? manifest['src/react/main.jsx'].file
-    : null
+  const jsFile = manifest['src/react/main.jsx'] ? manifest['src/react/main.jsx'].file : null
 
   app.get('/', async (req, res, next) => {
     try {
@@ -53,12 +48,7 @@ export default async function initApp() {
   app.use((err, req, res, next) => {
     console.error('Ett serverfel inträffade:', err)
     const status = err.status || 500
-    renderErrorPage(
-      res,
-      status,
-      'Tekniskt fel',
-      'Ett oväntat fel inträffade. Försök igen senare.'
-    )
+    renderErrorPage(res, status, 'Tekniskt fel', 'Ett oväntat fel inträffade. Försök igen senare.')
   })
 
   return app
