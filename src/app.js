@@ -3,8 +3,9 @@ import { engine } from 'express-handlebars'
 import fs from 'fs/promises'
 import renderPage from './lib/renderPage.js'
 import { renderErrorPage } from './lib/errorHandler.js'
+import apiRoutes from './routes/apiRoutes.js'
 
-export default async function initApp() {
+export default async function initApp(api) {
   const app = express()
 
   app.engine('handlebars', engine())
@@ -17,7 +18,7 @@ export default async function initApp() {
 
   app.get('/', async (req, res, next) => {
     try {
-      renderPage(res, 'game', { jsFile })
+      renderPage(res, 'play', { jsFile })
     } catch (err) {
       next(err)
     }
@@ -39,6 +40,7 @@ export default async function initApp() {
     }
   })
 
+  app.use('/api', apiRoutes(api))
   app.use('/static', express.static('static'))
 
   app.use((req, res) => {
