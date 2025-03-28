@@ -4,12 +4,11 @@ import initGame from '../services/initGame.js'
 const router = express.Router()
 
 export default function apiRoutes(api) {
-  router.get('/start-game', async (req, res, next) => {
+  router.post('/start-game', async (req, res, next) => {
     try {
-      const { wordLength, noLetterDuplicate } = req.query
-      const isNoLetterDuplicate = JSON.parse(noLetterDuplicate.toLowerCase())
+      const { wordLength, noLetterDuplicate } = req.body
 
-      const gameStatus = await initGame(api, Number(wordLength), isNoLetterDuplicate)
+      const gameStatus = await initGame(api, Number(wordLength), Boolean(noLetterDuplicate))
       res.json(gameStatus)
     } catch (err) {
       next(err)

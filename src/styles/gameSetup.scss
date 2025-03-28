@@ -1,0 +1,118 @@
+.game-setup {
+  box-sizing: border-box;
+  padding: 20px;
+  border-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 30px;
+
+  &__title {
+    text-align: center;
+    color: white;
+    font-size: 36px;
+    margin-top: 58px;
+    margin-bottom: 78px;
+  }
+
+  &__dropdown-label {
+    display: block;
+    font-size: 20px;
+    color: white;
+    font-weight: 300;
+    margin-bottom: 5px;
+  }
+
+  &__dropdown-select {
+    width: 250px;
+    height: 40px;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #424549;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 74px;
+  }
+
+  &__dropdown-item {
+    padding: 8px;
+    background-color: #424549;
+    color: white;
+  }
+
+  &__checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 100px;
+  }
+
+  &__checkbox-label {
+    color: white;
+    font-size: 20px;
+    font-weight: 300px;
+    margin-left: 12px;
+  }
+
+  &__checkbox-value {
+    width: 32px;
+    height: 32px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s;
+  }
+
+  &__checkbox-value:checked {
+    background-color: #424549;
+  }
+
+  &__checkbox-value:checked::after {
+    content: '\2713';
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    font-size: 18px;
+    color: white;
+  }
+
+  &__checkbox-value:checked {
+    border-color: #424549;
+  }
+
+  &__button {
+    background-color: #2e8b57;
+    color: white;
+    border-radius: 40px;
+    font-size: 50px;
+    border: none;
+    padding: 10px 90px;
+    margin-bottom: 20px;
+  }
+
+  .error-message {
+    color: red;
+    font-size: 25px;
+    animation: blink 1s;
+    transition: opasity 1s;
+    animation-duration: 400ms;
+    animation-iteration-count: 3;
+  }
+
+  @keyframes blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}

@@ -40,17 +40,28 @@ export default async function initApp(api) {
     }
   })
 
+  app.use(express.json())
   app.use('/api', apiRoutes(api))
   app.use('/static', express.static('static'))
 
   app.use((req, res) => {
-    renderErrorPage(res, 404, 'Sidan kunde inte hittas', 'Sidan finns inte')
+    renderErrorPage(res, 404, 'Page not found', 'The page does not exist')
   })
 
-  app.use((err, req, res, next) => {
-    console.error('Ett serverfel inträffade:', err)
+  app.use((err, request, response, next) => {
+    console.error('A server error occurred:', err)
+
     const status = err.status || 500
-    renderErrorPage(res, status, 'Tekniskt fel', 'Ett oväntat fel inträffade. Försök igen senare.')
+    const errorMessage = err.message || 'An unexpected error occurred. Please try again later.'
+
+    if (request.originalUrl.startsWith('/api/')) {
+      return response.status(status).json({
+        error: errorMessage,
+        status,
+      })
+    }
+
+    renderErrorPage(response, status, 'Technical error', errorMessage)
   })
 
   return app
