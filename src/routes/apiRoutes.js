@@ -15,5 +15,16 @@ export default function apiRoutes(api) {
     }
   })
 
+  router.get('/word-lengths', async (req, res, next) => {
+    try {
+      const words = await api.loadWords()
+      const wordLengths = [...new Set(words.map((word) => word.length))]
+      wordLengths.sort((a, b) => a - b)
+      res.json(wordLengths)
+    } catch (err) {
+      next(err)
+    }
+  })
+
   return router
 }

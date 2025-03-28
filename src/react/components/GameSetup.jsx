@@ -1,20 +1,23 @@
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import WordLengthDropdown from './WordLengthDropdown'
+import { useWordLengths } from '../API/FetchWordLengths'
 
 function GameSetup({ onStart }) {
   const [error, setError] = useState(null)
-  const [wordLength, setWordLength] = useState('') // Stores dropdown selection
-  const [noDuplicates, setNoDuplicates] = useState(false) // Stores checkbox state
+  const { wordLengths, error: fetchError } = useWordLengths()
+  const [noDuplicates, setNoDuplicates] = useState(false)
+  const [selectedLength, setSelectedLength] = useState('')
 
   async function handleStart() {
     setError(null)
 
-    if (!wordLength) {
+    if (!selectedLength) {
       setError('Please select a word length.')
       return
     }
 
     const rules = {
-      wordLength: Number(wordLength), // Convert to number
+      wordLength: Number(selectedLength),
       noLetterDuplicate: noDuplicates,
     }
 
@@ -31,37 +34,12 @@ function GameSetup({ onStart }) {
   return (
     <div className="game-setup">
       <h2 className="game-setup__title">Choose game settings</h2>
-      <label className="game-setup__dropdown-label" htmlFor="dropdown">
-        Choose word size:
-      </label>
-      <select
-        className="game-setup__dropdown-select"
-        id="dropdown"
-        name="dropdown"
-        value={wordLength}
-        onChange={(e) => setWordLength(e.target.value)}
-      >
-        <option className="game-setup__dropdown-item" value="">
-          Select length
-        </option>
-        <option className="game-setup__dropdown-item" value="1">
-          1
-        </option>
-        <option className="game-setup__dropdown-item" value="2">
-          2
-        </option>
-        <option className="game-setup__dropdown-item" value="3">
-          3
-        </option>
-        <option className="game-setup__dropdown-item" value="45">
-          45
-        </option>
-      </select>
+      {fetchError && <p className="error-message">{fetchError}</p>} {}
+      <WordLengthDropdown lengths={wordLengths} selectedLength={selectedLength} onLengthChange={setSelectedLength} />
       <div className="game-setup__checkbox-container">
         <input
           className="game-setup__checkbox-value"
           type="checkbox"
-          id="checkbox"
           name="checkbox"
           checked={noDuplicates}
           onChange={(e) => setNoDuplicates(e.target.checked)}
