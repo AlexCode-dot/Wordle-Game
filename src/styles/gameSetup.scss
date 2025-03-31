@@ -94,25 +94,4 @@
     padding: 10px 90px;
     margin-bottom: 20px;
   }
-
-  .error-message {
-    color: red;
-    font-size: 25px;
-    animation: blink 1s;
-    transition: opasity 1s;
-    animation-duration: 400ms;
-    animation-iteration-count: 3;
-  }
-
-  @keyframes blink {
-    0% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
 }

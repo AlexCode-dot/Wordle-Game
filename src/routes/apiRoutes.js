@@ -1,15 +1,28 @@
 import express from 'express'
 import initGame from '../services/initGame.js'
+import wordFeedBack from '../services/wordFeedback.js'
 
 const router = express.Router()
+
+let gameData = '' //Simulate database data
 
 export default function apiRoutes(api) {
   router.post('/start-game', async (req, res, next) => {
     try {
       const { wordLength, noLetterDuplicate } = req.body
 
-      const gameStatus = await initGame(api, Number(wordLength), Boolean(noLetterDuplicate))
-      res.json(gameStatus)
+      const gameSettings = {
+        wordLength: Number(wordLength),
+        noLetterDuplicate: Boolean(noLetterDuplicate),
+      }
+
+      const gameStatus = await initGame(api, gameSettings)
+      gameData = gameStatus.correctWord //Simulate database data
+
+      res.json({
+        wordLength: gameStatus.wordLength,
+        gameStarted: gameStatus.gameStarted,
+      })
     } catch (err) {
       next(err)
     }
@@ -21,6 +34,18 @@ export default function apiRoutes(api) {
       const wordLengths = [...new Set(words.map((word) => word.length))]
       wordLengths.sort((a, b) => a - b)
       res.json(wordLengths)
+    } catch (err) {
+      next(err)
+    }
+  })
+
+  //TEST
+  router.post('/guess', (req, res) => {
+    try {
+      const { guessedWord } = req.body
+      const correctWord = gameData //Simulate database data
+      const feedback = wordFeedBack(guessedWord, correctWord)
+      res.json(feedback)
     } catch (err) {
       next(err)
     }

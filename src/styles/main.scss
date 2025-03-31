@@ -1,5 +1,7 @@
 @use 'header.scss';
 @use 'gameSetup.scss';
+@use 'gamePlay.scss';
+@use 'guessFeedback.scss';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
 body {
@@ -22,5 +24,26 @@ body {
 
   @media (max-width: 600px) {
     width: 95%;
+  }
+}
+
+.error-message {
+  color: red;
+  font-size: 25px;
+  animation: blink 1s;
+  transition: opasity 1s;
+  animation-duration: 400ms;
+  animation-iteration-count: 3;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
