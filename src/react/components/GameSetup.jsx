@@ -1,40 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import WordLengthDropdown from './WordLengthDropdown'
-import { useWordLengths } from '../API/FetchWordLengths'
+import { useGameSetup } from '../hooks/useGameSetup.js'
 
 function GameSetup({ onStart }) {
-  const [error, setError] = useState(null)
-  const { wordLengths, error: fetchError } = useWordLengths()
-  const [noDuplicates, setNoDuplicates] = useState(false)
-  const [selectedLength, setSelectedLength] = useState('')
-
-  async function handleStart() {
-    setError(null)
-
-    if (!selectedLength) {
-      setError('Please select a word length.')
-      return
-    }
-
-    const rules = {
-      wordLength: Number(selectedLength),
-      noLetterDuplicate: noDuplicates,
-    }
-
-    const result = await onStart(rules)
-    if (result.success && !result.data.gameStarted) {
-      setError(result.data.message)
-    }
-
-    if (!result.success) {
-      setError(result.error)
-    }
-  }
+  const {
+    wordLengths,
+    fetchError,
+    error,
+    selectedLength,
+    setSelectedLength,
+    noDuplicates,
+    setNoDuplicates,
+    handleStart,
+  } = useGameSetup(onStart)
 
   return (
     <div className="game-setup">
       <h2 className="game-setup__title">Choose game settings</h2>
-      {fetchError && <p className="error-message">{fetchError}</p>} {}
+      {fetchError && <p className="error-message">{fetchError}</p>}
       <WordLengthDropdown lengths={wordLengths} selectedLength={selectedLength} onLengthChange={setSelectedLength} />
       <div className="game-setup__checkbox-container">
         <input
@@ -44,7 +27,7 @@ function GameSetup({ onStart }) {
           checked={noDuplicates}
           onChange={(e) => setNoDuplicates(e.target.checked)}
         />
-        <label className="game-setup__checkbox-label" for="checkbox">
+        <label className="game-setup__checkbox-label" htmlFor="checkbox">
           No duplicated letters
         </label>
       </div>

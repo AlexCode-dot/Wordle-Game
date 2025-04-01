@@ -40,7 +40,7 @@ export default function apiRoutes(api) {
   })
 
   //TEST
-  router.post('/guess', (req, res) => {
+  router.post('/guess', (req, res, next) => {
     try {
       const { guessedWord } = req.body
       const correctWord = gameData //Simulate database data
