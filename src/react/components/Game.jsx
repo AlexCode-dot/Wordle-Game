@@ -1,25 +1,16 @@
-import { useState } from 'react'
-import GameSetup from './GameSetup'
-import GamePlay from './GamePlay'
-import { startGameApi } from '../API/FetchGameStatus'
+import { useGameLogic } from '../hooks/useGameLogic.js'
+import GameSetup from './GameSetup.jsx'
+import GamePlay from './GamePlay.jsx'
+import GameWon from './GameWon.jsx'
 
 function Game() {
-  const [gameState, setGameState] = useState('setup')
-  const [wordLength, setWordLength] = useState(null)
-
-  async function startGame(rules) {
-    const result = await startGameApi(rules)
-    if (result.success && result.data.gameStarted == true) {
-      setWordLength(result.data.wordLength)
-      setGameState('playing')
-    }
-    return result
-  }
+  const { gameState, wordLength, winningGuess, startGame, validateWin } = useGameLogic()
 
   return (
     <>
       {gameState === 'setup' && <GameSetup onStart={startGame} />}
-      {gameState === 'playing' && <GamePlay wordLength={wordLength} />}
+      {gameState === 'playing' && <GamePlay processGuess={validateWin} wordLength={wordLength} />}
+      {gameState === 'win' && <GameWon winningGuess={winningGuess} wordLength={wordLength} />}
     </>
   )
 }

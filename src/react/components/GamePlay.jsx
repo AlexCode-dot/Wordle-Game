@@ -1,9 +1,8 @@
 import React, { useState, useRef } from 'react'
-import validateGuessApi from '../API/FetchGuessFeedback.jsx'
 import RenderGuessWordsFeedback from './GuessWordsFeedback.jsx'
 import InfoButton from './InfoButton.jsx'
 
-function GamePlay({ wordLength }) {
+function GamePlay({ wordLength, processGuess }) {
   const inputRef = useRef(null)
   const [guessWordsFeedback, setGuessWordsFeedback] = useState([])
   const [error, setError] = useState(null)
@@ -18,7 +17,7 @@ function GamePlay({ wordLength }) {
     }
 
     try {
-      const result = await validateGuessApi(input)
+      const result = await processGuess(input)
       console.log(result)
       if (!result.success) {
         setError(result.error)
