@@ -93,5 +93,11 @@
     border: none;
     padding: 10px 90px;
     margin-bottom: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #41a06a;
+    }
   }
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { startGameApi } from '../API/FetchGameStatus'
 import validateGuessApi from '../API/FetchGuessFeedback.jsx'
+import fetchCorrectWord from '../API/FetchCorrectWord.jsx'
 
 export function useGameLogic() {
   const [gameState, setGameState] = useState('setup')
@@ -29,5 +30,13 @@ export function useGameLogic() {
     return result
   }
 
-  return { gameState, wordLength, winningGuess, startGame, validateWin }
+  async function endGame() {
+    const result = await fetchCorrectWord()
+    if (result.success && result.data) {
+      setWinningGuess(result.data) // Store the correct word
+      setGameState('lose')
+    }
+  }
+
+  return { gameState, wordLength, winningGuess, startGame, validateWin, endGame }
 }

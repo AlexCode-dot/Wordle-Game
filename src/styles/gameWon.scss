@@ -68,6 +68,12 @@
     border-style: none;
     padding: 18px 30px;
     width: 300px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #c85f67;
+    }
   }
 
   &__btn-leaderboard {
@@ -78,5 +84,11 @@
     border-style: none;
     padding: 18px 30px;
     width: 300px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #41a06a;
+    }
   }
 }

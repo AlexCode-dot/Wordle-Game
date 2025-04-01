@@ -4,13 +4,15 @@ import InfoButton from './InfoButton.jsx'
 import GuessInput from './GuessInput.jsx'
 import GuessCount from './GuessCount.jsx'
 import ErrorMessage from './ErrorMessage.jsx'
+import EndGameButton from './EndGameButton.jsx'
 import { useGuessLogic } from '../hooks/useGuessLogic.js'
 
-function GamePlay({ wordLength, processGuess }) {
+function GamePlay({ wordLength, processGuess, endGame }) {
   const { inputRef, guessWordsFeedback, error, handleGuess } = useGuessLogic(wordLength, processGuess)
 
   return (
     <div className="game-play">
+      <EndGameButton endGame={endGame} />
       <InfoButton wordLength={wordLength} />
       <GuessCount count={guessWordsFeedback.length} />
       <RenderGuessWordsFeedback guessWordsFeedback={guessWordsFeedback} wordLength={wordLength} />

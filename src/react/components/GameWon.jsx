@@ -19,7 +19,9 @@ function GameWon({ winningGuess, wordLength }) {
         placeholder="Write your name..."
       ></input>
       <div className="win-page__btn-container">
-        <button className="win-page__btn-restart">Restart game</button>
+        <button className="win-page__btn-restart" onClick={() => window.location.reload()}>
+          Restart game
+        </button>
         <button className="win-page__btn-leaderboard">Add to leaderboard</button>
       </div>
     </div>
