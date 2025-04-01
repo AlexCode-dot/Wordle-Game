@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import validateGuessApi from '../API/FetchGuessFeedback.jsx'
 import RenderGuessWordsFeedback from './GuessWordsFeedback.jsx'
+import InfoButton from './InfoButton.jsx'
 
 function GamePlay({ wordLength }) {
   const inputRef = useRef(null)
@@ -39,6 +40,7 @@ function GamePlay({ wordLength }) {
 
   return (
     <div className="game-play">
+      <InfoButton wordLength={wordLength} />
       <p className="game-play__guess-count">Guess count: {guessWordsFeedback.length}</p>
       <RenderGuessWordsFeedback guessWordsFeedback={guessWordsFeedback} wordLength={wordLength} />
       <label className="game-play__input-label" htmlFor="guess-input">
