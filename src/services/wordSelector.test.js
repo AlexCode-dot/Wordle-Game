@@ -4,12 +4,12 @@ import getWord from './wordSelector'
 describe('getWord()', () => {
   it("should return 'Inget passande ord hittades' when input 'wordsList' is empty", () => {
     const output = getWord('', 3, false)
-    expect(output).toEqual('Inget passande ord hittades.')
+    expect(output).toEqual('No matching word found.')
   })
 
   it("should return 'Inget passande ord hittades' when there is no suitable word", () => {
     const output = getWord(['cykla'], 3, false)
-    expect(output).toEqual('Inget passande ord hittades.')
+    expect(output).toEqual('No matching word found.')
   })
 
   it("should only return one of the words with the same length as the input 'wordLength' ", () => {

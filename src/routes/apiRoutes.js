@@ -17,6 +17,11 @@ export default function apiRoutes(api) {
       }
 
       const gameStatus = await initGame(api, gameSettings)
+
+      if (!gameStatus.gameStarted) {
+        return res.status(400).json({ message: gameStatus.message, gameStarted: false })
+      }
+
       gameData = gameStatus.correctWord //Simulate database data
 
       res.status(201).json({

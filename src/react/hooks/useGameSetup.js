@@ -21,9 +21,7 @@ export function useGameSetup(onStart) {
     }
 
     const result = await onStart(rules)
-    if (result.success && !result.data.gameStarted) {
-      setError('No matching word found.')
-    } else if (!result.success) {
+    if (!result.success) {
       setError(result.error)
     }
   }
