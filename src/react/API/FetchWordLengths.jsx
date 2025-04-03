@@ -7,7 +7,7 @@ export function useWordLengths() {
   useEffect(() => {
     async function fetchWordLengths() {
       try {
-        const response = await fetch('/api/word-lengths')
+        const response = await fetch('/api/words/lengths')
         if (!response.ok) {
           throw new Error('Failed to load word lengths.')
         }

@@ -1,6 +1,6 @@
 export default async function validateGuessApi(guessedWord) {
   try {
-    const response = await fetch('/api/guess', {
+    const response = await fetch('/api/games/guesses', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ guessedWord }),

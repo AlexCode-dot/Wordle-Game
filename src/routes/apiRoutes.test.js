@@ -15,11 +15,7 @@ describe('POST /start-game', () => {
   it('should start the game and return correct word data', async () => {
     const gameSettings = { wordLength: 5, noLetterDuplicate: true }
 
-    const response = await request(app)
-      .post('/start-game')
-      .send(gameSettings)
-      .expect('Content-Type', /json/)
-      .expect(201)
+    const response = await request(app).post('/games').send(gameSettings).expect('Content-Type', /json/).expect(201)
 
     expect(response.body.gameStarted).toBe(true)
     expect(response.body.wordLength).toBe(5)
@@ -31,11 +27,7 @@ describe('POST /start-game', () => {
 
     const gameSettings = { wordLength: 10, noLetterDuplicate: true }
 
-    const response = await request(app)
-      .post('/start-game')
-      .send(gameSettings)
-      .expect('Content-Type', /json/)
-      .expect(400)
+    const response = await request(app).post('/games').send(gameSettings).expect('Content-Type', /json/).expect(400)
 
     expect(response.body.gameStarted).toBe(false)
     expect(response.body.message).toBe('No matching word found.')

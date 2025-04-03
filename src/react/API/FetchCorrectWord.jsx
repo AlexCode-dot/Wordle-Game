@@ -1,6 +1,6 @@
 export default async function fetchCorrectWord() {
   try {
-    const response = await fetch('/api/correct-word')
+    const response = await fetch('/api/games/correct-word')
     const data = await response.json()
     return { success: true, data }
   } catch (error) {

@@ -1,6 +1,6 @@
 export async function startGameApi(rules) {
   try {
-    const response = await fetch('/api/start-game', {
+    const response = await fetch('/api/games', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(rules),

@@ -7,7 +7,7 @@ const router = express.Router()
 let gameData = '' //Simulate database data
 
 export default function apiRoutes(api) {
-  router.post('/start-game', async (req, res, next) => {
+  router.post('/games', async (req, res, next) => {
     try {
       const { wordLength, noLetterDuplicate } = req.body
 
@@ -33,7 +33,7 @@ export default function apiRoutes(api) {
     }
   })
 
-  router.get('/word-lengths', async (req, res, next) => {
+  router.get('/words/lengths', async (req, res, next) => {
     try {
       const words = await api.loadWords()
       const wordLengths = [...new Set(words.map((word) => word.length))]
@@ -44,8 +44,7 @@ export default function apiRoutes(api) {
     }
   })
 
-  //TEST
-  router.post('/guess', (req, res, next) => {
+  router.post('/games/guesses', (req, res, next) => {
     try {
       const { guessedWord } = req.body
 
@@ -61,7 +60,7 @@ export default function apiRoutes(api) {
     }
   })
 
-  router.get('/correct-word', async (req, res, next) => {
+  router.get('/games/correct-word', async (req, res, next) => {
     try {
       res.json(gameData) //Simulate database data
     } catch (err) {
