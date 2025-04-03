@@ -1,4 +1,6 @@
 function GameLose({ correctWord }) {
+  console.log('correctWord:', correctWord) // Debugging log
+
   return (
     <div className="game-lose">
       <h2 className="game-lose__title">You lost!</h2>

@@ -13,7 +13,9 @@
     "watch-css": "sass --watch src/styles/main.scss:static/styles/style.css",
     "build-and-start": "vite build && node src/server.js",
     "start": "node src/server.js",
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
+    "test-cypress": "cypress run",
+    "test-all": "npm test && npm run test-cypress"
   },
   "dependencies": {
     "express": "^4.21.2",
@@ -30,6 +32,7 @@
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
     "cross-env": "^7.0.3",
+    "cypress": "^14.2.1",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
