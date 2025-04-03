@@ -1,13 +1,13 @@
 import RenderGuessWordsFeedback from './GuessWordsFeedback.jsx'
 
-function GameWon({ winningGuess, wordLength }) {
+function GameWon({ winningGuess, wordLength, guessCount }) {
   return (
     <div className="win-page">
       <h2 className="win-page__title">You won!</h2>
       <div className="win-page__word-container">
         <RenderGuessWordsFeedback guessWordsFeedback={winningGuess} wordLength={wordLength} />
       </div>
-      <p className="win-page__guess-count">Guess count:</p>
+      <p className="win-page__guess-count">Guess count: {guessCount}</p>
       <p className="win-page__timer">Time:</p>
       <label className="win-page__input-label" htmlFor="name-input">
         Enter your name
