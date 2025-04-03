@@ -1,20 +1,20 @@
 import { useState } from 'react'
-import { startGameApi } from '../API/FetchGameStatus'
-import validateGuessApi from '../API/FetchGuessFeedback.jsx'
-import fetchCorrectWord from '../API/FetchCorrectWord.jsx'
+import { startGameApi } from '../API/FetchGameStatus.js'
+import validateGuessApi from '../API/FetchGuessFeedback.js'
+import fetchCorrectWord from '../API/FetchCorrectWord.js'
 
 export function useGameLogic() {
   const [gameState, setGameState] = useState('setup')
   const [wordLength, setWordLength] = useState(null)
   const [winningGuess, setWinningGuess] = useState(null)
-  const [guessCount, setGuessCount] = useState(0) // Track guess count
+  const [guessCount, setGuessCount] = useState(0)
 
   async function startGame(rules) {
     const result = await startGameApi(rules)
     if (result.success && result.data.gameStarted) {
       setWordLength(result.data.wordLength)
       setGameState('playing')
-      setGuessCount(0) // Reset guess count
+      setGuessCount(0)
     }
     return result
   }
@@ -28,7 +28,7 @@ export function useGameLogic() {
         setWinningGuess([result.data])
         setGameState('win')
       }
-      setGuessCount((prev) => prev + 1) // Increment guess count
+      setGuessCount((prev) => prev + 1)
     }
     return result
   }
@@ -36,7 +36,7 @@ export function useGameLogic() {
   async function endGame() {
     const result = await fetchCorrectWord()
     if (result.success && result.data) {
-      setWinningGuess(result.data) // Store the correct word
+      setWinningGuess(result.data)
       setGameState('lose')
     }
   }
