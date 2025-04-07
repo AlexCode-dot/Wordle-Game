@@ -4,8 +4,6 @@ import wordFeedBack from '../services/wordFeedback.js'
 
 const router = express.Router()
 
-let gameData = '' //Simulate database data
-
 export default function apiRoutes(api) {
   router.post('/games', async (req, res, next) => {
     try {
@@ -53,27 +51,64 @@ export default function apiRoutes(api) {
 
   router.post('/games/guesses', (req, res, next) => {
     try {
-      const { guessedWord } = req.body
-
+      const { guessedWord } = req.body;
+  
       if (!guessedWord || typeof guessedWord !== 'string') {
-        return res.status(400).json({ error: 'Invalid input. A valid guessed word (string) is required.' })
+        return res.status(400).json({ error: 'Invalid input. A valid guessed word (string) is required.' });
       }
-
-      const correctWord = req.session.game.correctWord //Simulate database data
-      const feedback = wordFeedBack(guessedWord, correctWord)
-      res.json(feedback)
+  
+      if (!req.session.game || !req.session.game.correctWord) {
+        return res.status(400).json({ error: 'No active game session.' });
+      }
+  
+      const correctWord = req.session.game.correctWord;
+      const feedback = wordFeedBack(guessedWord, correctWord);
+  
+      // Initialize guesses array if not present
+      req.session.game.guesses = req.session.game.guesses || [];
+      req.session.game.guesses.push(feedback);
+  
+      // Check for win condition
+      const allCorrect = feedback.every((letter) => letter.result === 'correct');
+  
+      if (allCorrect) {
+        req.session.game.state = 'win';
+        req.session.game.winningFeedback = feedback;
+      }
+  
+      // Save session explicitly
+      req.session.save((err) => {
+        if (err) {
+          console.error('Failed to save session:', err);
+          return res.status(500).json({ error: 'Session save failed.' });
+        }
+  
+        res.json(feedback); // Send the feedback as usual
+      });
     } catch (err) {
-      next(err)
+      next(err);
     }
-  })
+  });
+  
 
   router.get('/games/correct-word', async (req, res, next) => {
     try {
-      res.json(gameData) //Simulate database data
+      const correctWord = req.session.game.correctWord;
+  
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Error destroying session:', err);
+          return res.status(500).json({ error: 'Failed to destroy session.' });
+        }
+  
+      });
+  
+      res.json(correctWord);
+  
     } catch (err) {
-      next(err)
+      next(err);
     }
-  })
+  });
 
   router.post('/submit-score', async (req, res) => {
     const { name, guessCount } = req.body;
@@ -123,6 +158,25 @@ export default function apiRoutes(api) {
       console.error('Error saving score:', err);
       res.status(500).json({ error: 'Failed to submit score.' });
     }
+  });
+
+  router.get('/games/status', async (req, res) => {
+    if (!req.session.game) {
+      return res.status(400).json({ message: 'No active game session found.' });
+    }
+
+    console.log(req.session.game.correctWord)
+  
+    const { correctWord, startTime, rules, guesses, state = 'playing', winningFeedback = null } = req.session.game;
+    res.json({
+      gameStarted: true,
+      correctWord,
+      startTime,
+      rules,
+      guesses, // this is now array of feedback arrays
+      state,
+      winningFeedback: state === 'win' ? winningFeedback : null,
+    });
   });
   
 

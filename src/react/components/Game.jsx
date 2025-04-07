@@ -5,13 +5,13 @@ import GameWon from './GameWon.jsx'
 import GameLose from './GameLose.jsx'
 
 function Game() {
-  const { gameState, wordLength, winningGuess, guessCount, startGame, validateWin, endGame } = useGameLogic()
+  const { gameState, wordLength, winningGuess, guessCount, guessWordsFeedback, startGame, validateWin, endGame } = useGameLogic()
 
   return (
     <>
       {gameState === 'setup' && <GameSetup onStart={startGame} />}
       {gameState === 'playing' && (
-        <GamePlay processGuess={validateWin} wordLength={wordLength} endGame={endGame} guessCount={guessCount} />
+        <GamePlay processGuess={validateWin} wordLength={wordLength} endGame={endGame} guessCount={guessCount} initialFeedback={guessWordsFeedback}/>
       )}
       {gameState === 'win' && <GameWon winningGuess={winningGuess} wordLength={wordLength} guessCount={guessCount} />}
       {gameState === 'lose' && <GameLose correctWord={winningGuess} />}

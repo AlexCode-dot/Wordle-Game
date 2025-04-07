@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react'
 
-export function useGuessLogic(wordLength, processGuess) {
+export function useGuessLogic(wordLength, processGuess, initialFeedback) {
   const inputRef = useRef(null)
-  const [guessWordsFeedback, setGuessWordsFeedback] = useState([])
+  const [guessWordsFeedback, setGuessWordsFeedback] = useState(initialFeedback)
   const [error, setError] = useState(null)
 
   async function handleGuess() {
