@@ -21,11 +21,6 @@ export function useGuessLogic(wordLength, processGuess, initialFeedback) {
         return
       }
 
-      if (result.success && result.data === false) {
-        setError('Your guess was not valid, try another word.')
-        return
-      }
-
       setGuessWordsFeedback((prev) => [...prev, result.data])
       inputRef.current.value = ''
     } catch (err) {

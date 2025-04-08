@@ -2,6 +2,7 @@ import express from 'express'
 import request from 'supertest'
 import apiRoutes from './apiRoutes'
 import { expect, describe, it } from '@jest/globals'
+import session from 'express-session'
 
 describe('POST /start-game', () => {
   let app
@@ -9,6 +10,11 @@ describe('POST /start-game', () => {
   beforeAll(() => {
     app = express()
     app.use(express.json())
+    app.use(session({
+      secret: 'testsecret',
+      resave: false,
+      saveUninitialized: true
+    }))
     app.use(apiRoutes({ loadWords: async () => ['melon', 'banana', 'cherry'] }))
   })
 

@@ -5,14 +5,14 @@ export default function sessionConfig() {
   return session({
     secret: process.env.SESSION_SECRET || 'your-secret',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URI || 'mongodb://localhost:27017/wordgame',
-      ttl: 24 * 60 * 60, // 1 day
+      ttl: 60 * 60,
     }),
     cookie: {
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-      httpOnly: true,
+        maxAge: 60 * 60 * 1000,
+        httpOnly: true,
     },
   });
 }
