@@ -1,17 +1,17 @@
 import RenderGuessWordsFeedback from './GuessWordsFeedback.jsx'
-import { useState } from 'react';
-import postScore from "../API/postScore.js"
+import { useState } from 'react'
+import postScore from '../API/postScore.js'
 
-function GameWon({ winningGuess, wordLength, guessCount }) {
-  const [name, setName] = useState('');
+function GameWon({ winningGuess, wordLength, guessCount, gameTime }) {
+  const [name, setName] = useState('')
 
   const handleNameChange = (e) => {
-    setName(e.target.value);
-  };
+    setName(e.target.value)
+  }
 
   const handlePostScore = () => {
-    postScore(guessCount, name); // Passing guessCount and name to the postScore function
-  };
+    postScore(guessCount, name) // Passing guessCount and name to the postScore function
+  }
 
   return (
     <div className="win-page">
@@ -20,7 +20,7 @@ function GameWon({ winningGuess, wordLength, guessCount }) {
         <RenderGuessWordsFeedback guessWordsFeedback={winningGuess} wordLength={wordLength} />
       </div>
       <p className="win-page__guess-count">Guess count: {guessCount}</p>
-      <p className="win-page__timer">Time:</p>
+      <p className="win-page__timer">Time: {gameTime}</p>
       <label className="win-page__input-label" htmlFor="name-input">
         Enter your name
       </label>
@@ -41,8 +41,7 @@ function GameWon({ winningGuess, wordLength, guessCount }) {
         </button>
       </div>
     </div>
-  );
+  )
 }
-
 
 export default GameWon

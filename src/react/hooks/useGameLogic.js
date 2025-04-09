@@ -10,6 +10,7 @@ export function useGameLogic() {
   const [winningGuess, setWinningGuess] = useState(null)
   const [guessCount, setGuessCount] = useState(0)
   const [guessWordsFeedback, setGuessWordsFeedback] = useState([])
+  const [gameTime, setGameTime] = useState(null)
 
   useEffect(() => {
     async function restoreSession() {
@@ -55,6 +56,7 @@ export function useGameLogic() {
     if (result.success && Array.isArray(result.data.letterFeedback)) {
       if (result.data.gameWon) {
         setWinningGuess([result.data.letterFeedback])
+        setGameTime(result.data.timeTaken)
         setGameState('win')
       }
       setGuessCount((prev) => prev + 1)
@@ -70,5 +72,15 @@ export function useGameLogic() {
     }
   }
 
-  return { gameState, wordLength, winningGuess, guessCount, guessWordsFeedback, startGame, validateWin, endGame }
+  return {
+    gameState,
+    wordLength,
+    winningGuess,
+    guessCount,
+    gameTime,
+    guessWordsFeedback,
+    startGame,
+    validateWin,
+    endGame,
+  }
 }
