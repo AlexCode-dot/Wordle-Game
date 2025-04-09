@@ -21,7 +21,7 @@ export function useGuessLogic(wordLength, processGuess, initialFeedback) {
         return
       }
 
-      setGuessWordsFeedback((prev) => [...prev, result.data])
+      setGuessWordsFeedback((prev) => [...prev, result.data.letterFeedback])
       inputRef.current.value = ''
     } catch (err) {
       setError('Something went wrong. Try again.')

@@ -1,6 +1,6 @@
 import * as gameSessionService from '../services/gameSessionService.js'
+import * as guessService from '../services/guessService.js'
 import initGame from '../services/initGame.js'
-import wordFeedBack from '../services/wordFeedback.js'
 
 export const startGame = (api) => async (req, res, next) => {
   try {
@@ -16,7 +16,6 @@ export const startGame = (api) => async (req, res, next) => {
       return res.status(400).json({ message: gameStatus.message, gameStarted: false })
     }
 
-    // Move the session logic to the gameSessionService
     gameSessionService.startNewGame(req, gameStatus, gameSettings)
 
     res.status(201).json({
@@ -41,6 +40,7 @@ export const getWordLengths = (api) => async (req, res, next) => {
 export const makeGuess = (req, res, next) => {
   try {
     const { guessedWord } = req.body
+
     if (!guessedWord || typeof guessedWord !== 'string') {
       return res.status(400).json({ error: 'Invalid input. A valid guessed word (string) is required.' })
     }
@@ -49,16 +49,23 @@ export const makeGuess = (req, res, next) => {
       return res.status(400).json({ error: 'No active game session.' })
     }
 
-    const correctWord = req.session.game.correctWord
-    const feedback = wordFeedBack(guessedWord, correctWord)
+    const result = guessService.handleGuess(guessedWord, req.session.game)
 
-    if (feedback === false) {
-        return res.status(400).json({ error: 'Your guess was not valid, try another word.' })
+    if (result.error) {
+      return res.status(400).json({ error: result.error })
     }
 
-    gameSessionService.saveGuess(req, feedback)
-    
-    res.json(feedback)
+    gameSessionService.saveGuess(req, result.feedback, result.gameWon, result.timeTaken)
+
+    req.session.save((err) => {
+      if (err) {
+        console.error('Failed to save session:', err)
+        return next(err)
+      }
+
+      const { feedback, gameWon, timeTaken } = result
+      res.json({ letterFeedback: feedback, gameWon, ...(gameWon ? { timeTaken } : {}) })
+    })
   } catch (err) {
     next(err)
   }
@@ -68,7 +75,6 @@ export const revealCorrectWord = (req, res, next) => {
   try {
     const correctWord = req.session.game?.correctWord
 
-    // Use the gameSessionService to destroy the session
     gameSessionService.destroySession(req)
 
     res.json(correctWord)
@@ -78,24 +84,23 @@ export const revealCorrectWord = (req, res, next) => {
 }
 
 export const getGameStatus = (req, res, next) => {
-    try {
-      const game = gameSessionService.retrieveSessionGameStatus(req)
-  
-      if (!game) {
-        return res.json({ gameStarted: false })
-      }
-  
-      const { rules, guesses, state = 'playing', winningFeedback = null } = game
-  
-      return res.json({
-        gameStarted: true,
-        rules,
-        guesses,
-        state,
-        winningFeedback: state === 'win' ? winningFeedback : null,
-      })
-    } catch (err) {
-      next(err) // Pass it to your centralized error handler
+  try {
+    const game = gameSessionService.retrieveSessionGameStatus(req)
+
+    if (!game) {
+      return res.json({ gameStarted: false })
     }
+
+    const { rules, guesses, state = 'playing', winningFeedback = null } = game
+
+    return res.json({
+      gameStarted: true,
+      rules,
+      guesses,
+      state,
+      winningFeedback: state === 'win' ? winningFeedback : null,
+    })
+  } catch (err) {
+    next(err)
   }
-  
+}

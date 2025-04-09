@@ -16,20 +16,18 @@ export function useGameLogic() {
       try {
         const result = await getGameStatus()
         console.log('Session result:', result)
-  
+
         if (result.success && result.data.gameStarted) {
-          setGameState(result.data.state || 'playing');
+          setGameState(result.data.state || 'playing')
 
           if (result.data.state === 'win' && result.data.winningFeedback) {
-            setWinningGuess([result.data.winningFeedback]);
-          }          
+            setWinningGuess([result.data.winningFeedback])
+          }
           setWordLength(result.data.rules.wordLength)
           setGuessCount(result.data.guesses?.length || 0)
 
-
           console.log('Formatted Guesses:', result.data.guesses)
           setGuessWordsFeedback(result.data.guesses)
-      
         } else {
           setGameState('setup') // fallback to setup
         }
@@ -40,7 +38,6 @@ export function useGameLogic() {
     }
     restoreSession()
   }, [])
-  
 
   async function startGame(rules) {
     const result = await startGameApi(rules)
@@ -55,10 +52,9 @@ export function useGameLogic() {
   async function validateWin(guess) {
     const result = await validateGuessApi(guess)
     console.log(result)
-    if (result.success && Array.isArray(result.data)) {
-      const allCorrect = result.data.every((item) => item.result === 'correct')
-      if (allCorrect) {
-        setWinningGuess([result.data])
+    if (result.success && Array.isArray(result.data.letterFeedback)) {
+      if (result.data.gameWon) {
+        setWinningGuess([result.data.letterFeedback])
         setGameState('win')
       }
       setGuessCount((prev) => prev + 1)
