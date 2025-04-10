@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react'
 
-export function useGuessLogic(wordLength, processGuess) {
+export function useGuessLogic(wordLength, processGuess, initialFeedback) {
   const inputRef = useRef(null)
-  const [guessWordsFeedback, setGuessWordsFeedback] = useState([])
+  const [guessWordsFeedback, setGuessWordsFeedback] = useState(initialFeedback)
   const [error, setError] = useState(null)
 
   async function handleGuess() {
@@ -21,12 +21,7 @@ export function useGuessLogic(wordLength, processGuess) {
         return
       }
 
-      if (result.success && result.data === false) {
-        setError('Your guess was not valid, try another word.')
-        return
-      }
-
-      setGuessWordsFeedback((prev) => [...prev, result.data])
+      setGuessWordsFeedback((prev) => [...prev, result.data.letterFeedback])
       inputRef.current.value = ''
     } catch (err) {
       setError('Something went wrong. Try again.')

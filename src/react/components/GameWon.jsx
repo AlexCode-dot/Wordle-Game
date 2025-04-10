@@ -1,6 +1,9 @@
 import RenderGuessWordsFeedback from './GuessWordsFeedback.jsx'
+import { useGameWon } from '../hooks/useGameWon.js'
 
-function GameWon({ winningGuess, wordLength, guessCount }) {
+function GameWon({ winningGuess, wordLength, guessCount, gameTime }) {
+  const { name, handleNameChange, handlePostScore } = useGameWon()
+
   return (
     <div className="win-page">
       <h2 className="win-page__title">You won!</h2>
@@ -8,7 +11,7 @@ function GameWon({ winningGuess, wordLength, guessCount }) {
         <RenderGuessWordsFeedback guessWordsFeedback={winningGuess} wordLength={wordLength} />
       </div>
       <p className="win-page__guess-count">Guess count: {guessCount}</p>
-      <p className="win-page__timer">Time:</p>
+      <p className="win-page__timer">Time: {gameTime}</p>
       <label className="win-page__input-label" htmlFor="name-input">
         Enter your name
       </label>
@@ -17,12 +20,16 @@ function GameWon({ winningGuess, wordLength, guessCount }) {
         name="name-input"
         type="text"
         placeholder="Write your name..."
-      ></input>
+        value={name}
+        onChange={handleNameChange}
+      />
       <div className="win-page__btn-container">
         <button className="win-page__btn-restart" onClick={() => window.location.reload()}>
           Restart game
         </button>
-        <button className="win-page__btn-leaderboard">Add to leaderboard</button>
+        <button className="win-page__btn-leaderboard" onClick={handlePostScore}>
+          Add to leaderboard
+        </button>
       </div>
     </div>
   )

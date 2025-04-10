@@ -8,11 +8,14 @@ describe('Guess Feedback Colors', () => {
   it('should display correct feedback colors for guessed word', () => {
     cy.intercept('POST', '/api/games/guesses', {
       statusCode: 200,
-      body: [
-        { letter: 'h', result: 'correct' },
-        { letter: 'e', result: 'misplaced' },
-        { letter: 'y', result: 'incorrect' },
-      ],
+      body: {
+        letterFeedback: [
+          { letter: 'h', result: 'correct' },
+          { letter: 'e', result: 'misplaced' },
+          { letter: 'y', result: 'incorrect' },
+        ],
+        gameWon: false,
+      },
     }).as('postGuess')
 
     cy.get('.game-play__input-placeholder').type('hey')
