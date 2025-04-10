@@ -8,14 +8,14 @@ export function startNewGame(req, gameStatus, gameSettings) {
   }
 }
 
-export function saveGuess(req, feedback, gameWon) {
+export function saveGuess(req, feedback, gameWon, timeTaken) {
   const game = req.session.game
-
   game.guesses.push(feedback)
 
   if (gameWon) {
     game.state = 'win'
     game.winningFeedback = feedback
+    game.timeTaken = timeTaken
   }
 }
 

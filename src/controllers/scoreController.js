@@ -3,7 +3,9 @@ import * as scoreService from '../services/scoreService.js'
 
 export const submitScore = (api) => async (req, res, next) => {
   try {
-    const { name, guessCount } = req.body
+    const { name } = req.body
+
+    const guessCount = req.session.game.guesses.length
     const { correctWord, rules, startTime, endTime } = req.session.game || {}
 
     if (!correctWord || !rules || !startTime || !endTime) {

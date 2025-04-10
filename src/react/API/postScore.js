@@ -1,9 +1,9 @@
-async function postScore(guessCount, name) {
+async function postScore(name) {
   try {
     const response = await fetch('/api/submit-score', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ guessCount, name }),
+      body: JSON.stringify({ name }),
       credentials: 'include',
     })
 

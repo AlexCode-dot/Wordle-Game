@@ -91,15 +91,22 @@ export const getGameStatus = (req, res, next) => {
       return res.json({ gameStarted: false })
     }
 
-    const { rules, guesses, state = 'playing', winningFeedback = null } = game
+    console.log('game:' + game.timeTaken)
+    const { rules, guesses, state = 'playing', winningFeedback = null, timeTaken } = game
 
-    return res.json({
+    const response = {
       gameStarted: true,
       rules,
       guesses,
       state,
       winningFeedback: state === 'win' ? winningFeedback : null,
-    })
+    }
+
+    if (state === 'win' && timeTaken != null) {
+      response.timeTaken = timeTaken
+    }
+
+    return res.json(response)
   } catch (err) {
     next(err)
   }

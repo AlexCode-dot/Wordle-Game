@@ -1,17 +1,8 @@
 import RenderGuessWordsFeedback from './GuessWordsFeedback.jsx'
-import { useState } from 'react'
-import postScore from '../API/postScore.js'
+import { useGameWon } from '../hooks/useGameWon.js'
 
 function GameWon({ winningGuess, wordLength, guessCount, gameTime }) {
-  const [name, setName] = useState('')
-
-  const handleNameChange = (e) => {
-    setName(e.target.value)
-  }
-
-  const handlePostScore = () => {
-    postScore(guessCount, name) // Passing guessCount and name to the postScore function
-  }
+  const { name, handleNameChange, handlePostScore } = useGameWon()
 
   return (
     <div className="win-page">
@@ -30,7 +21,7 @@ function GameWon({ winningGuess, wordLength, guessCount, gameTime }) {
         type="text"
         placeholder="Write your name..."
         value={name}
-        onChange={handleNameChange} // Updating the state as the user types
+        onChange={handleNameChange}
       />
       <div className="win-page__btn-container">
         <button className="win-page__btn-restart" onClick={() => window.location.reload()}>

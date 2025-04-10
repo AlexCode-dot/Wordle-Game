@@ -23,6 +23,7 @@ export function useGameLogic() {
 
           if (result.data.state === 'win' && result.data.winningFeedback) {
             setWinningGuess([result.data.winningFeedback])
+            setGameTime(result.data.timeTaken)
           }
           setWordLength(result.data.rules.wordLength)
           setGuessCount(result.data.guesses?.length || 0)
