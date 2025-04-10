@@ -28,7 +28,8 @@ export async function getLeaderboard(api) {
         name: score.name,
         guessCount: score.guessCount,
         timeTaken: formattedTime,
-        rules: score.rules,
+        wordLength: score.rules.wordLength,
+        noLetterDuplicate: score.rules.noLetterDuplicate ? 'Yes' : 'No',
       }
     })
 

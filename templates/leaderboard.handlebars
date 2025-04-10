@@ -6,7 +6,7 @@
       <th class="leaderboard__header">Guess Count</th>
       <th class="leaderboard__header">Time</th>
       <th class="leaderboard__header">Word Length</th>
-      <th class="leaderboard__header">No Letter Duplicate</th>
+      <th class="leaderboard__header">Unique Letters Only</th>
     </tr>
   </thead>
   <tbody class="leaderboard__tbody">
@@ -15,8 +15,8 @@
         <td class="leaderboard__data">{{this.name}}</td>
         <td class="leaderboard__data">{{this.guessCount}}</td>
         <td class="leaderboard__data">{{this.timeTaken}}</td>
-        <td class="leaderboard__data">{{this.rules.wordLength}}</td>
-        <td class="leaderboard__data">{{this.rules.noLetterDuplicate}}</td>
+        <td class="leaderboard__data">{{this.wordLength}}</td>
+        <td class="leaderboard__data">{{this.noLetterDuplicate}}</td>
       </tr>
     {{/each}}
   </tbody>
