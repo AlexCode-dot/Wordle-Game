@@ -6,6 +6,7 @@ const router = express.Router()
 
 export default function apiRoutes(api) {
   router.post('/games', gameController.startGame(api))
+  router.delete('/games', gameController.deleteGameSession)
   router.get('/words/lengths', gameController.getWordLengths(api))
   router.post('/games/guesses', gameController.makeGuess)
   router.get('/games/correct-word', gameController.revealCorrectWord)

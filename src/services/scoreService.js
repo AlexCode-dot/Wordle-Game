@@ -1,8 +1,9 @@
+import formatTime from '../lib/formatTime.js'
+
 export function calculateTimeTaken(startTime, endTime) {
   const timeTakenMs = endTime - startTime
-  const minutes = Math.floor(timeTakenMs / 60000)
-  const seconds = Math.floor((timeTakenMs % 60000) / 1000)
-  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+  const timeTakenInSeconds = Math.floor(timeTakenMs / 1000)
+  return timeTakenInSeconds
 }
 
 export function createScore(api, name, guessCount, correctWord, startTime, endTime, formattedTime, rules) {
@@ -15,4 +16,24 @@ export function createScore(api, name, guessCount, correctWord, startTime, endTi
     timeTaken: formattedTime,
     rules,
   })
+}
+
+export async function getLeaderboard(api) {
+  try {
+    const scoresData = await api.HighScore.find().sort({ timeTaken: 1 })
+
+    const formattedScores = scoresData.map((score) => {
+      const formattedTime = formatTime(score.timeTaken)
+      return {
+        name: score.name,
+        guessCount: score.guessCount,
+        timeTaken: formattedTime,
+        rules: score.rules,
+      }
+    })
+
+    return formattedScores
+  } catch (err) {
+    throw new Error('Error fetching leaderboard data')
+  }
 }

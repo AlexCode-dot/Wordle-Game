@@ -3,6 +3,7 @@ import { startGameApi } from '../API/FetchGameStatus.js'
 import validateGuessApi from '../API/FetchGuessFeedback.js'
 import fetchCorrectWord from '../API/FetchCorrectWord.js'
 import { getGameStatus } from '../API/FetchGameSession.js'
+import removeGameApi from '../API/RemoveGame.js'
 
 export function useGameLogic() {
   const [gameState, setGameState] = useState('setup')
@@ -73,6 +74,13 @@ export function useGameLogic() {
     }
   }
 
+  async function restartGame() {
+    const result = await removeGameApi()
+    console.log('Game reset response:', result.data.message)
+    if (result.success && result.data) {
+      setGameState('setup')
+    }
+  }
   return {
     gameState,
     wordLength,
@@ -83,5 +91,6 @@ export function useGameLogic() {
     startGame,
     validateWin,
     endGame,
+    restartGame,
   }
 }

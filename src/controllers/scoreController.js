@@ -12,9 +12,18 @@ export const submitScore = (api) => async (req, res, next) => {
       return res.status(400).json({ error: 'Missing session data' })
     }
 
-    const formattedTime = scoreService.calculateTimeTaken(startTime, endTime)
+    const timeTakenInSeconds = scoreService.calculateTimeTaken(startTime, endTime)
 
-    const score = scoreService.createScore(api, name, guessCount, correctWord, startTime, endTime, formattedTime, rules)
+    const score = scoreService.createScore(
+      api,
+      name,
+      guessCount,
+      correctWord,
+      startTime,
+      endTime,
+      timeTakenInSeconds,
+      rules
+    )
 
     await score.save()
     gameSessionService.destroySession(req)

@@ -15,6 +15,7 @@ function Game() {
     startGame,
     validateWin,
     endGame,
+    restartGame,
   } = useGameLogic()
 
   return (
@@ -30,7 +31,13 @@ function Game() {
         />
       )}
       {gameState === 'win' && (
-        <GameWon winningGuess={winningGuess} wordLength={wordLength} guessCount={guessCount} gameTime={gameTime} />
+        <GameWon
+          winningGuess={winningGuess}
+          wordLength={wordLength}
+          guessCount={guessCount}
+          gameTime={gameTime}
+          restartGame={restartGame}
+        />
       )}
       {gameState === 'lose' && <GameLose correctWord={winningGuess} />}
     </>

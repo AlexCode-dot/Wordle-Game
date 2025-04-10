@@ -1,7 +1,7 @@
 import RenderGuessWordsFeedback from './GuessWordsFeedback.jsx'
 import { useGameWon } from '../hooks/useGameWon.js'
 
-function GameWon({ winningGuess, wordLength, guessCount, gameTime }) {
+function GameWon({ winningGuess, wordLength, guessCount, gameTime, restartGame }) {
   const { name, handleNameChange, handlePostScore } = useGameWon()
 
   return (
@@ -24,7 +24,7 @@ function GameWon({ winningGuess, wordLength, guessCount, gameTime }) {
         onChange={handleNameChange}
       />
       <div className="win-page__btn-container">
-        <button className="win-page__btn-restart" onClick={() => window.location.reload()}>
+        <button className="win-page__btn-restart" onClick={restartGame}>
           Restart game
         </button>
         <button className="win-page__btn-leaderboard" onClick={handlePostScore}>

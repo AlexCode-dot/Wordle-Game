@@ -5,6 +5,7 @@ import renderPage from './lib/renderPage.js'
 import { renderErrorPage } from './lib/errorHandler.js'
 import apiRoutes from './routes/apiRoutes.js'
 import sessionConfig from './lib/sessionConfig.js' // Import the session config
+import * as scoreService from './services/scoreService.js'
 
 export default async function initApp(api) {
   const app = express()
@@ -35,14 +36,7 @@ export default async function initApp(api) {
 
   app.get('/leaderboard', async (req, res, next) => {
     try {
-      const scoresData = await api.HighScore.find()
-      const formattedScores = scoresData.map((score) => ({
-        name: score.name,
-        guessCount: score.guessCount,
-        timeTaken: score.timeTaken,
-        rules: score.rules,
-      }))
-
+      const formattedScores = await scoreService.getLeaderboard(api)
       renderPage(res, 'leaderboard', { allScores: formattedScores })
     } catch (err) {
       next(err)

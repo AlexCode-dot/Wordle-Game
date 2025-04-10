@@ -91,7 +91,6 @@ export const getGameStatus = (req, res, next) => {
       return res.json({ gameStarted: false })
     }
 
-    console.log('game:' + game.timeTaken)
     const { rules, guesses, state = 'playing', winningFeedback = null, timeTaken } = game
 
     const response = {
@@ -107,6 +106,19 @@ export const getGameStatus = (req, res, next) => {
     }
 
     return res.json(response)
+  } catch (err) {
+    next(err)
+  }
+}
+
+export const deleteGameSession = (req, res, next) => {
+  try {
+    if (req.session?.game) {
+      gameSessionService.destroySession(req)
+      res.status(200).json({ message: 'Game session removed.' })
+    } else {
+      res.status(200).json({ message: 'No game session found.' })
+    }
   } catch (err) {
     next(err)
   }

@@ -5,7 +5,7 @@ const highScoreSchema = new mongoose.Schema({
   name: { type: String, required: true },
   guessCount: { type: Number, required: true },
   correctWord: { type: String, required: true },
-  timeTaken: { type: String, required: true },
+  timeTaken: { type: Number, required: true },
   rules: {
     wordLength: { type: Number, required: true },
     noLetterDuplicate: { type: Boolean, required: true },

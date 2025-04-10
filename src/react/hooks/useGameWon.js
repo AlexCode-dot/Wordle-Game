@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import postScore from '../API/postScore.js'
+import postScore from '../API/PostScore.js'
 
 export function useGameWon() {
   const [name, setName] = useState('')
@@ -8,8 +8,14 @@ export function useGameWon() {
     setName(e.target.value)
   }
 
-  const handlePostScore = () => {
-    postScore(name)
+  const handlePostScore = async () => {
+    const response = await postScore(name)
+
+    if (response.success) {
+      window.location.href = '/leaderboard'
+    } else {
+      console.error('Error posting score:', response.error)
+    }
   }
 
   return {

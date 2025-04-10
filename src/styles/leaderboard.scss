@@ -1,0 +1,72 @@
+/* Leaderboard Block */
+.leaderboard {
+  &__title {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: white;
+  }
+
+  &__table {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    border: none;
+  }
+
+  &__header,
+  &__data {
+    padding: 12px 15px;
+    text-align: center;
+  }
+
+  &__header {
+    background-color: #36393f;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 18px 15px;
+  }
+
+  &__data {
+    background-color: #b8b8b8;
+    border-bottom: 1px solid #ddd;
+  }
+
+  &__tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  &__tbody tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+
+  &__header,
+  &__data {
+    font-size: 1rem;
+  }
+
+  &__data--last {
+    text-align: left;
+  }
+
+  @media (max-width: 768px) {
+    &__table {
+      font-size: 0.9rem;
+    }
+
+    &__header,
+    &__data {
+      padding: 8px 10px;
+    }
+  }
+}

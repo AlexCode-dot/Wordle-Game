@@ -1,22 +1,22 @@
-<h1>Leaderboard</h1>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Guess Count</th>
-      <th>Time Taken</th>
-      <th>Word Length</th>
-      <th>No Letter Duplicate</th>
+<h1 class="leaderboard__title">Leaderboard</h1>
+<table class="leaderboard__table">
+  <thead class="leaderboard__thead">
+    <tr class="leaderboard__row">
+      <th class="leaderboard__header">Name</th>
+      <th class="leaderboard__header">Guess Count</th>
+      <th class="leaderboard__header">Time</th>
+      <th class="leaderboard__header">Word Length</th>
+      <th class="leaderboard__header">No Letter Duplicate</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="leaderboard__tbody">
     {{#each allScores}}
-      <tr>
-        <td>{{this.name}}</td>
-        <td>{{this.guessCount}}</td>
-        <td>{{this.timeTaken}}</td>
-        <td>{{this.rules.wordLength}}</td>
-        <td>{{this.rules.noLetterDuplicate}}</td>
+      <tr class="leaderboard__row">
+        <td class="leaderboard__data">{{this.name}}</td>
+        <td class="leaderboard__data">{{this.guessCount}}</td>
+        <td class="leaderboard__data">{{this.timeTaken}}</td>
+        <td class="leaderboard__data">{{this.rules.wordLength}}</td>
+        <td class="leaderboard__data">{{this.rules.noLetterDuplicate}}</td>
       </tr>
     {{/each}}
   </tbody>

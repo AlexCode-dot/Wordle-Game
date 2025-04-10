@@ -1,4 +1,5 @@
 import wordFeedBack from './wordFeedback.js'
+import formatTime from '../lib/formatTime.js'
 import { calculateTimeTaken } from './scoreService.js'
 
 export function handleGuess(guessedWord, game) {
@@ -18,7 +19,10 @@ export function handleGuess(guessedWord, game) {
   if (gameWon) {
     const endTime = Date.now()
     game.endTime = endTime
-    result.timeTaken = calculateTimeTaken(game.startTime, endTime)
+    const timeTakenInSeconds = calculateTimeTaken(game.startTime, endTime)
+    const formattedTime = formatTime(timeTakenInSeconds)
+    result.timeTaken = formattedTime
+    result.timeTakenInSeconds = timeTakenInSeconds
   }
 
   return result
