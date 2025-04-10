@@ -6,11 +6,14 @@ it('should show the win page when the game is won', () => {
 
   cy.intercept('POST', '/api/games/guesses', {
     statusCode: 200,
-    body: [
-      { letter: 'h', result: 'correct' },
-      { letter: 'e', result: 'correct' },
-      { letter: 'y', result: 'correct' },
-    ],
+    body: {
+      letterFeedback: [
+        { letter: 'h', result: 'correct' },
+        { letter: 'e', result: 'correct' },
+        { letter: 'y', result: 'correct' },
+      ],
+      gameWon: true,
+    },
   }).as('validateGuess')
 
   cy.visit('/')

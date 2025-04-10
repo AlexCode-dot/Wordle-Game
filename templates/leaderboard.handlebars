@@ -1,1 +1,23 @@
-LEADERBOARD
+<h1>Leaderboard</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Guess Count</th>
+      <th>Time Taken</th>
+      <th>Word Length</th>
+      <th>No Letter Duplicate</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each allScores}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.guessCount}}</td>
+        <td>{{this.timeTaken}}</td>
+        <td>{{this.rules.wordLength}}</td>
+        <td>{{this.rules.noLetterDuplicate}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

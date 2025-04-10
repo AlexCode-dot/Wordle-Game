@@ -7,8 +7,8 @@ import ErrorMessage from './ErrorMessage.jsx'
 import EndGameButton from './EndGameButton.jsx'
 import { useGuessLogic } from '../hooks/useGuessLogic.js'
 
-function GamePlay({ wordLength, processGuess, endGame, guessCount }) {
-  const { inputRef, guessWordsFeedback, error, handleGuess } = useGuessLogic(wordLength, processGuess)
+function GamePlay({ wordLength, processGuess, endGame, guessCount, initialFeedback }) {
+  const { inputRef, guessWordsFeedback, error, handleGuess } = useGuessLogic(wordLength, processGuess, initialFeedback)
 
   return (
     <div className="game-play">
