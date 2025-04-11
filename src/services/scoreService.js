@@ -18,9 +18,9 @@ export function createScore(api, name, guessCount, correctWord, startTime, endTi
   })
 }
 
-export async function getLeaderboard(api) {
+export async function getLeaderboard(api, filters = {}) {
   try {
-    const scoresData = await api.HighScore.find().sort({ timeTaken: 1 })
+    const scoresData = await api.HighScore.find(filters).sort({ timeTaken: 1 })
 
     const formattedScores = scoresData.map((score) => {
       const formattedTime = formatTime(score.timeTaken)
@@ -36,5 +36,15 @@ export async function getLeaderboard(api) {
     return formattedScores
   } catch (err) {
     throw new Error('Error fetching leaderboard data')
+  }
+}
+
+export async function getUniqueWordLengths(api) {
+  try {
+    const wordLengthsNumbers = await api.HighScore.distinct('rules.wordLength')
+    //const wordLengths = wordLengthsNumbers.map(length => String(length));  // Convert to strings if needed
+    return wordLengthsNumbers
+  } catch (err) {
+    throw new Error('Error fetching unique word lengths')
   }
 }

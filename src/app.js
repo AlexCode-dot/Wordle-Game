@@ -4,13 +4,23 @@ import fs from 'fs/promises'
 import renderPage from './lib/renderPage.js'
 import { renderErrorPage } from './lib/errorHandler.js'
 import apiRoutes from './routes/apiRoutes.js'
-import sessionConfig from './lib/sessionConfig.js' // Import the session config
+import sessionConfig from './lib/sessionConfig.js'
 import * as scoreService from './services/scoreService.js'
+import { buildScoreFilters } from './services/leaderboardFilters.js'
 
 export default async function initApp(api) {
   const app = express()
 
-  app.engine('handlebars', engine())
+  app.engine(
+    'handlebars',
+    engine({
+      helpers: {
+        eq: (a, b) => {
+          return String(a) === String(b)
+        },
+      },
+    })
+  )
   app.set('view engine', 'handlebars')
   app.set('views', './templates')
 
@@ -36,14 +46,21 @@ export default async function initApp(api) {
 
   app.get('/leaderboard', async (req, res, next) => {
     try {
-      const formattedScores = await scoreService.getLeaderboard(api)
-      renderPage(res, 'leaderboard', { allScores: formattedScores })
+      const { filters, activeFilters } = buildScoreFilters(req.query)
+      const formattedScores = await scoreService.getLeaderboard(api, filters)
+      const uniqueWordLengths = await scoreService.getUniqueWordLengths(api)
+
+      renderPage(res, 'leaderboard', {
+        allScores: formattedScores,
+        activeFilters,
+        wordLengths: uniqueWordLengths,
+      })
     } catch (err) {
       next(err)
     }
   })
 
-  app.use(sessionConfig()) // Use the session config here
+  app.use(sessionConfig())
   app.use(express.json())
   app.use('/api', apiRoutes(api))
   app.use('/static', express.static('static'))

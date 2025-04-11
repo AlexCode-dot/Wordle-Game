@@ -502,13 +502,62 @@
   background-color: #41a06a;
 }
 
-/* Leaderboard Block */
 .leaderboard__title {
-  margin-top: 30px;
   text-align: center;
-  font-size: 2rem;
-  margin-bottom: 20px;
   color: white;
+  font-size: 36px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+.leaderboard__filter-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+.leaderboard__filter-items-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 600px;
+  gap: 20px;
+}
+.leaderboard__filter-item {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.leaderboard__dropdown-label {
+  display: block;
+  font-size: 20px;
+  color: white;
+  font-weight: 300;
+  text-align: center;
+}
+.leaderboard__dropdown-select {
+  width: 100%;
+  height: 40px;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #424549;
+  color: white;
+  cursor: pointer;
+}
+.leaderboard__button {
+  background-color: #2e8b57;
+  color: white;
+  border-radius: 40px;
+  font-size: 35px;
+  border: none;
+  padding: 10px 60px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.leaderboard__button:hover {
+  cursor: pointer;
+  background-color: #41a06a;
 }
 .leaderboard__table {
   width: 90%;

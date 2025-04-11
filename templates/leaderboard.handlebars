@@ -1,4 +1,36 @@
 <h1 class="leaderboard__title">Leaderboard</h1>
+<form method="GET" action="/leaderboard" class="leaderboard__filter-form">
+  <div class="leaderboard__filter-items-wrapper">
+    <div class="leaderboard__filter-item">
+      <label class="leaderboard__dropdown-label">
+        Word Length:
+        <select name="length" class="leaderboard__dropdown-select">
+          <option value="" {{#unless activeFilters.length}}selected{{/unless}}>All</option>
+          {{#each wordLengths}}
+          <option value="{{this}}" {{#if (eq ../activeFilters.length this)}}selected{{/if}}>{{this}}</option>
+          {{/each}}
+        </select>
+
+
+
+      </label>
+    </div>
+
+    <div class="leaderboard__filter-item">
+      <label class="leaderboard__dropdown-label">
+        Unique Letters Only:
+        <select name="unique" class="leaderboard__dropdown-select">
+          <option value="" {{#unless activeFilters.unique}}selected{{/unless}}>All</option>
+          <option value="true" {{#if (eq activeFilters.unique 'true' ) }}selected{{/if}}>Yes</option>
+          <option value="false" {{#if (eq activeFilters.unique 'false' ) }}selected{{/if}}>No</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <button type="submit" class="leaderboard__button">Filter</button>
+</form>
+
 <table class="leaderboard__table">
   <thead class="leaderboard__thead">
     <tr class="leaderboard__row">
@@ -11,13 +43,13 @@
   </thead>
   <tbody class="leaderboard__tbody">
     {{#each allScores}}
-      <tr class="leaderboard__row">
-        <td class="leaderboard__data">{{this.name}}</td>
-        <td class="leaderboard__data">{{this.guessCount}}</td>
-        <td class="leaderboard__data">{{this.timeTaken}}</td>
-        <td class="leaderboard__data">{{this.wordLength}}</td>
-        <td class="leaderboard__data">{{this.noLetterDuplicate}}</td>
-      </tr>
+    <tr class="leaderboard__row">
+      <td class="leaderboard__data">{{this.name}}</td>
+      <td class="leaderboard__data">{{this.guessCount}}</td>
+      <td class="leaderboard__data">{{this.timeTaken}}</td>
+      <td class="leaderboard__data">{{this.wordLength}}</td>
+      <td class="leaderboard__data">{{this.noLetterDuplicate}}</td>
+    </tr>
     {{/each}}
   </tbody>
 </table>
