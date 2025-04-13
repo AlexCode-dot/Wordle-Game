@@ -73,11 +73,15 @@ export const makeGuess = (req, res, next) => {
 
 export const revealCorrectWord = (req, res, next) => {
   try {
-    const correctWord = req.session.game?.correctWord
+    if (!req.session.game) {
+      return res.status(400).json({ error: 'No active game session.' })
+    }
+
+    const correctWord = req.session.game.correctWord
 
     gameSessionService.destroySession(req)
 
-    res.json(correctWord)
+    return res.json(correctWord)
   } catch (err) {
     next(err)
   }
@@ -115,9 +119,9 @@ export const deleteGameSession = (req, res, next) => {
   try {
     if (req.session?.game) {
       gameSessionService.destroySession(req)
-      res.status(200).json({ message: 'Game session removed.' })
+      return res.status(200).json({ message: 'Game session removed.' })
     } else {
-      res.status(200).json({ message: 'No game session found.' })
+      return res.status(200).json({ message: 'No game session found.' })
     }
   } catch (err) {
     next(err)

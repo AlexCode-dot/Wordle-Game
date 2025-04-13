@@ -79,6 +79,7 @@ export function useGameLogic() {
     console.log('Game reset response:', result.data.message)
     if (result.success && result.data) {
       setGameState('setup')
+      setGuessWordsFeedback([])
     }
   }
   return {
