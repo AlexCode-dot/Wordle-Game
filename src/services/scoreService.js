@@ -42,7 +42,6 @@ export async function getLeaderboard(api, filters = {}) {
 export async function getUniqueWordLengths(api) {
   try {
     const wordLengthsNumbers = await api.HighScore.distinct('rules.wordLength')
-    //const wordLengths = wordLengthsNumbers.map(length => String(length));  // Convert to strings if needed
     return wordLengthsNumbers
   } catch (err) {
     throw new Error('Error fetching unique word lengths')

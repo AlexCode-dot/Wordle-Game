@@ -17,7 +17,6 @@ export function useGameLogic() {
     async function restoreSession() {
       try {
         const result = await getGameStatus()
-        console.log('Session result:', result)
 
         if (result.success && result.data.gameStarted) {
           setGameState(result.data.state || 'playing')
@@ -32,11 +31,11 @@ export function useGameLogic() {
           console.log('Formatted Guesses:', result.data.guesses)
           setGuessWordsFeedback(result.data.guesses)
         } else {
-          setGameState('setup') // fallback to setup
+          setGameState('setup')
         }
       } catch (err) {
         console.error('Restore session failed:', err)
-        setGameState('setup') // fallback
+        setGameState('setup')
       }
     }
     restoreSession()
@@ -54,7 +53,6 @@ export function useGameLogic() {
 
   async function validateWin(guess) {
     const result = await validateGuessApi(guess)
-    console.log(result)
     if (result.success && Array.isArray(result.data.letterFeedback)) {
       if (result.data.gameWon) {
         setWinningGuess([result.data.letterFeedback])

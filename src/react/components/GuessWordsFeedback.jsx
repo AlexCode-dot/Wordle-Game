@@ -1,11 +1,8 @@
 function RenderGuessWordsFeedback({ guessWordsFeedback, wordLength }) {
-  console.log('All Words:', guessWordsFeedback)
-
   return (
     <div className="guess-row__wrapper">
       {guessWordsFeedback.map((word, index) => (
         <ul key={index} className="guess-row">
-          {console.log('One Word:', word)}
           {word.map((letterObj, i) => {
             let className = 'guess-row__letter-box'
 

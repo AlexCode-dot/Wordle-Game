@@ -1,4 +1,3 @@
-// models/HighScore.js
 import mongoose from 'mongoose'
 
 const highScoreSchema = new mongoose.Schema({
