@@ -16,7 +16,8 @@
     "lint:fix": "eslint . --fix",
     "prepare": "husky install",
     "watch:css": "sass --watch src/styles/main.scss:static/styles/style.css",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "clean-install": "rm -rf node_modules package-lock.json && npm install"
   },
   "dependencies": {
     "connect-mongo": "^5.1.0",
