@@ -87,9 +87,13 @@ export const revealCorrectWord = async (req: Request, res: Response, next: NextF
 
     const correctWord = req.session.game.correctWord
 
-    gameSessionService.destroySession(req)
+    gameSessionService.destroySession(req, (err) => {
+      if (err) {
+        return next(err)
+      }
 
-    return res.json(correctWord)
+      return res.json(correctWord)
+    })
   } catch (err) {
     next(err)
   }
@@ -126,8 +130,13 @@ export const getGameStatus = async (req: Request, res: Response, next: NextFunct
 export const deleteGameSession = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
   try {
     if (req.session?.game) {
-      gameSessionService.destroySession(req)
-      return res.status(200).json({ message: 'Game session removed.' })
+      gameSessionService.destroySession(req, (err) => {
+        if (err) {
+          return next(err)
+        }
+
+        return res.status(200).json({ message: 'Game session removed.' })
+      })
     } else {
       return res.status(200).json({ message: 'No game session found.' })
     }

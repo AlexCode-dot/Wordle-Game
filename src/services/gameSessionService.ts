@@ -26,11 +26,13 @@ export function retrieveSessionGameStatus(req: Request): SessionGame | null {
   return req.session.game ?? null
 }
 
-export function destroySession(req: Request): void {
+export function destroySession(req: Request, callback?: (err?: Error) => void): void {
   req.session.destroy((err: Error | null) => {
     if (err) {
       console.error('Error destroying session:', err)
-      throw new Error('Failed to destroy session.')
+      if (callback) callback(err)
+    } else {
+      if (callback) callback()
     }
   })
 }
