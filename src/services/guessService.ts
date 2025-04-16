@@ -1,8 +1,9 @@
-import wordFeedBack from './wordFeedback.js'
-import formatTime from '../lib/formatTime.js'
-import { calculateTimeTaken } from './scoreService.js'
+import wordFeedBack from './wordFeedback'
+import formatTime from '../lib/formatTime'
+import { calculateTimeTaken } from './scoreService'
+import { SessionGame, GuessResult } from '../types'
 
-export function handleGuess(guessedWord, game) {
+export function handleGuess(guessedWord: string, game: SessionGame): GuessResult | { error: string } {
   const correctWord = game.correctWord
   const feedback = wordFeedBack(guessedWord, correctWord)
 
@@ -11,7 +12,7 @@ export function handleGuess(guessedWord, game) {
   }
 
   const gameWon = feedback.every((l) => l.result === 'correct')
-  const result = {
+  const result: GuessResult = {
     feedback,
     gameWon,
   }
@@ -19,8 +20,10 @@ export function handleGuess(guessedWord, game) {
   if (gameWon) {
     const endTime = Date.now()
     game.endTime = endTime
+
     const timeTakenInSeconds = calculateTimeTaken(game.startTime, endTime)
     const formattedTime = formatTime(timeTakenInSeconds)
+
     result.timeTaken = formattedTime
     result.timeTakenInSeconds = timeTakenInSeconds
   }

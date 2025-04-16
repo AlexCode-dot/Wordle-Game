@@ -1,18 +1,18 @@
-import { expect, describe, it } from '@jest/globals'
 import getWord from './wordSelector'
+import { describe, it, expect } from '@jest/globals'
 
 describe('getWord()', () => {
-  it("should return 'Inget passande ord hittades' when input 'wordsList' is empty", () => {
-    const output = getWord('', 3, false)
+  it("should return 'No matching word found.' when words list is empty", () => {
+    const output = getWord([], 3, false)
     expect(output).toEqual('No matching word found.')
   })
 
-  it("should return 'Inget passande ord hittades' when there is no suitable word", () => {
+  it("should return 'No matching word found.' when no suitable word exists", () => {
     const output = getWord(['cykla'], 3, false)
     expect(output).toEqual('No matching word found.')
   })
 
-  it("should only return one of the words with the same length as the input 'wordLength' ", () => {
+  it('should return a word of correct length', () => {
     const originalMathRandom = Math.random
     Math.random = () => 0
 
@@ -20,14 +20,13 @@ describe('getWord()', () => {
     expect(output).toBe('test')
 
     Math.random = () => 0.99
-
     const output2 = getWord(['test', 'mage', 'bok'], 4, false)
     expect(output2).toBe('mage')
 
     Math.random = originalMathRandom
   })
 
-  it("should only return words with no duplicated letters if 'noLetterDuplicate' is equal to true", () => {
+  it("should return only words with unique letters if 'noLetterDuplicate' is true", () => {
     const originalMathRandom = Math.random
     Math.random = () => 0
 
@@ -37,7 +36,7 @@ describe('getWord()', () => {
     Math.random = originalMathRandom
   })
 
-  it("should return words with duplicated letters and no duplicated letters if 'noLetterDuplicate' is equal to false", () => {
+  it("should allow duplicated letters if 'noLetterDuplicate' is false", () => {
     const originalMathRandom = Math.random
     Math.random = () => 0
 
@@ -45,14 +44,13 @@ describe('getWord()', () => {
     expect(output).toBe('jagar')
 
     Math.random = () => 0.99
-
     const output2 = getWord(['jagar', 'cykla'], 5, false)
     expect(output2).toBe('cykla')
 
     Math.random = originalMathRandom
   })
 
-  it('should filter out special characters and spaces from the word before validation', () => {
+  it('should clean special characters and spaces before validation', () => {
     const output = getWord(['c ykl-a!'], 5, false)
     expect(output).toEqual('cykla')
   })

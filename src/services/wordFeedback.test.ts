@@ -1,5 +1,5 @@
-import { expect, describe, it } from '@jest/globals'
 import generateWordFeedback from './wordFeedback'
+import { describe, it, expect } from '@jest/globals'
 
 describe('generateWordFeedback()', () => {
   it('should return false if the two input strings are not the same length', () => {
@@ -9,14 +9,14 @@ describe('generateWordFeedback()', () => {
 
   it("should return an array of objects where each object has 'letter' and 'result'", () => {
     const result = generateWordFeedback('test', 'test')
-
     expect(Array.isArray(result)).toBe(true)
-
-    result.forEach((item) => {
-      expect(typeof item).toBe('object')
-      expect(item).toHaveProperty('letter')
-      expect(item).toHaveProperty('result')
-    })
+    if (result !== false) {
+      result.forEach((item) => {
+        expect(typeof item).toBe('object')
+        expect(item).toHaveProperty('letter')
+        expect(item).toHaveProperty('result')
+      })
+    }
   })
 
   it("should return 'correct' for all letters when both words are identical", () => {
@@ -39,7 +39,7 @@ describe('generateWordFeedback()', () => {
     ])
   })
 
-  it("should return 'incorrect' for all letters when there is no matching letters between the words", () => {
+  it("should return 'misplaced' for all letters when guessed word is an anagram", () => {
     const output = generateWordFeedback('stol', 'lost')
     expect(output).toEqual([
       { letter: 's', result: 'misplaced' },
@@ -58,7 +58,7 @@ describe('generateWordFeedback()', () => {
     ])
   })
 
-  it("should prioritize matched indices when a letter occurs more times in the guess than in the correct word, and set duplicates to 'incorrect", () => {
+  it('should prioritize matched indices when there are duplicate letters', () => {
     const output = generateWordFeedback('lagga', 'lagar')
     expect(output).toEqual([
       { letter: 'l', result: 'correct' },
@@ -69,7 +69,7 @@ describe('generateWordFeedback()', () => {
     ])
   })
 
-  it('should filter out special characters and spaces, and not include them in the word length check', () => {
+  it('should filter out special characters and spaces', () => {
     const output = generateWordFeedback('tes t', 'te- st!')
     expect(output).toEqual([
       { letter: 't', result: 'correct' },
