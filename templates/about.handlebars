@@ -1,1 +1,69 @@
-ABOUT
+<main class="about-page">
+  <section class="about-page__section">
+    <h1 class="about-page__title">About the Project</h1>
+    <p class="about-page__text">
+      <strong>Wordle Game with Highscore List</strong> is a fullstack web application developed as a course assignment in modern web development. The project is inspired by the original Wordle game, but includes additional features such as customizable word settings and a persistent highscore list.
+    </p>
+  </section>
+
+  <section class="about-page__section">
+    <h2 class="about-page__subtitle">Features</h2>
+    <ul class="about-page__list">
+      <li>Fully interactive Wordle-style gameplay</li>
+      <li>Customizable word length and duplicate letter rules</li>
+      <li>Visual feedback for guesses (green/yellow/red)</li>
+      <li>Persistent highscore submission upon win</li>
+      <li>Game state persists across reloads using sessions</li>
+    </ul>
+  </section>
+
+  <section class="about-page__section">
+    <h2 class="about-page__subtitle">Technologies Used</h2>
+    <ul class="about-page__list">
+      <li><strong>Frontend:</strong> React, Vite, SCSS</li>
+      <li><strong>Backend:</strong> Node.js, Express, TypeScript</li>
+      <li><strong>Database:</strong> MongoDB</li>
+      <li><strong>Templating:</strong> Handlebars</li>
+      <li><strong>Testing:</strong> Jest, Supertest, Cypress</li>
+      <li><strong>Session:</strong> express-session</li>
+    </ul>
+  </section>
+
+  <section class="about-page__section">
+    <h2 class="about-page__subtitle">Game State and Session Handling</h2>
+    <p class="about-page__text">
+      To prevent cheating and ensure a smooth experience across reloads, the game uses session-based state management:
+    </p>
+    <ul class="about-page__list">
+      <li>Game data is stored in the session when the game starts</li>
+      <li>Guess feedback is generated on the backend only</li>
+      <li>State is automatically restored on reload (game phase, guesses, settings)</li>
+      <li>Only name and result are submitted to the backend after a win</li>
+    </ul>
+    <p class="about-page__text">
+      This ensures security and consistency even when users reload or close their tab during a game.
+    </p>
+  </section>
+
+  <section class="about-page__section">
+  <h2 class="about-page__subtitle">Developer Highlights</h2>
+  <ul class="about-page__list">
+    <li>Modular architecture with clean separation of backend controllers, session helpers, and frontend components</li>
+    <li>Custom React hooks (for example, <code>useGameLogic</code>, <code>useGuessLogic</code>) manage gameplay logic</li>
+    <li>Leaderboard data is fetched from MongoDB and filterable by word length and duplication rules</li>
+    <li><strong>TypeScript</strong> is being used on the backend for improved type safety and maintainability</li>
+    <li>The app is fully tested with <strong>Jest</strong> (for unit/integration tests) and <strong>Cypress</strong> (for end-to-end tests) to ensure reliability and stability</li>
+  </ul>
+  </section>
+
+
+  <section class="about-page__section">
+    <h2 class="about-page__subtitle">Purpose of the Project</h2>
+    <p class="about-page__text">
+      This project was built to practice fullstack development, explore session handling and persistence, and implement secure game logic. It also includes responsive design, testable backend logic, and database interaction.
+    </p>
+     <p class="about-page__text">
+    This project not only helped me practice fullstack development but also allowed me to gain hands-on experience with session handling, state persistence, and building secure game logic. It pushed me to explore modern testing frameworks, backend optimization, and front-end state management, all while creating a responsive and scalable application.
+  </p>
+  </section>
+</main>
