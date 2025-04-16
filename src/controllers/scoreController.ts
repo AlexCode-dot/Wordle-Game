@@ -1,11 +1,10 @@
-import { Request, Response, NextFunction } from 'express'
 import * as gameSessionService from '../services/gameSessionService'
 import * as scoreService from '../services/scoreService'
-import { API } from '../types'
+import { API, AsyncRouteHandler } from '../types'
 
 export const submitScore =
-  (api: API) =>
-  async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+  (api: API): AsyncRouteHandler =>
+  async (req, res, next) => {
     try {
       const { name } = req.body
 

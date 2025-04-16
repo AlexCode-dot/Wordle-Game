@@ -5,5 +5,5 @@ export interface MenuItem {
 }
 
 export interface AdditionalData {
-  [key: string]: any
+  [key: string]: unknown
 }

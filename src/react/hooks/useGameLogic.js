@@ -67,7 +67,7 @@ export function useGameLogic() {
   async function endGame() {
     const result = await fetchCorrectWord()
     if (result.success && result.data) {
-      setWinningGuess(result.data)
+      setWinningGuess(result.data.correctWord)
       setGameState('lose')
     }
   }

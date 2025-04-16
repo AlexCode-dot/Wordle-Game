@@ -1,7 +1,9 @@
-export function buildScoreFilters(query: { length?: string; unique?: string }) {
+import { ScoreFilterQuery, ScoreFilterResult } from '../types'
+
+export function buildScoreFilters(query: ScoreFilterQuery): ScoreFilterResult {
   const { length, unique } = query
 
-  const filters: { [key: string]: any } = {}
+  const filters: Record<string, any> = {}
 
   if (length) {
     filters['rules.wordLength'] = parseInt(length)

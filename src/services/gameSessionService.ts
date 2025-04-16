@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import { GameRules, SessionGame, LetterFeedback } from '../types'
 
-export function startNewGame(req: Request, gameStatus: { correctWord: string }, gameSettings: GameRules): void {
+export function startNewGame(req: Request, gameStatus: { correctWord: string }, gameSettings: GameRules) {
   req.session.game = {
     correctWord: gameStatus.correctWord,
     startTime: Date.now(),
@@ -11,7 +11,7 @@ export function startNewGame(req: Request, gameStatus: { correctWord: string }, 
   }
 }
 
-export function saveGuess(req: Request, feedback: LetterFeedback[], gameWon: boolean, timeTaken?: string): void {
+export function saveGuess(req: Request, feedback: LetterFeedback[], gameWon: boolean, timeTaken?: string) {
   const game = req.session.game as SessionGame
   game.guesses.push(feedback)
 
@@ -26,7 +26,7 @@ export function retrieveSessionGameStatus(req: Request): SessionGame | null {
   return req.session.game ?? null
 }
 
-export function destroySession(req: Request, callback?: (err?: Error) => void): void {
+export function destroySession(req: Request, callback?: (err?: Error) => void) {
   req.session.destroy((err: Error | null) => {
     if (err) {
       console.error('Error destroying session:', err)

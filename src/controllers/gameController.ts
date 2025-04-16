@@ -1,19 +1,29 @@
-import { Request, Response, NextFunction } from 'express'
 import * as gameSessionService from '../services/gameSessionService'
 import * as guessService from '../services/guessService'
 import initGame from '../services/initGame'
-import { API, GuessResult } from '../types'
+import {
+  API,
+  GuessResult,
+  InitGameResult,
+  GameRules,
+  GuessResponse,
+  GameStatusResponse,
+  RevealWordResponse,
+  AsyncRouteHandler,
+} from '../types'
 
-export const startGame = (api: API) => {
-  return async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+export const startGame =
+  (api: API): AsyncRouteHandler =>
+  async (req, res, next) => {
     try {
       const { wordLength, noLetterDuplicate } = req.body
-      const gameSettings = {
+
+      const gameSettings: GameRules = {
         wordLength: Number(wordLength),
         noLetterDuplicate: Boolean(noLetterDuplicate),
       }
 
-      const gameStatus = await initGame(api, gameSettings)
+      const gameStatus: InitGameResult = await initGame(api, gameSettings)
 
       if (!gameStatus.gameStarted || !gameStatus.correctWord) {
         return res.status(400).json({ message: gameStatus.message, gameStarted: false })
@@ -29,10 +39,10 @@ export const startGame = (api: API) => {
       next(err)
     }
   }
-}
 
-export const getWordLengths = (api: API) => {
-  return async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+export const getWordLengths =
+  (api: API): AsyncRouteHandler =>
+  async (req, res, next) => {
     try {
       const words = await api.loadWords()
       const wordLengths = [...new Set(words.map((word) => word.length))].sort((a, b) => a - b)
@@ -41,9 +51,8 @@ export const getWordLengths = (api: API) => {
       next(err)
     }
   }
-}
 
-export const makeGuess = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+export const makeGuess: AsyncRouteHandler = async (req, res, next) => {
   try {
     const { guessedWord } = req.body
 
@@ -71,15 +80,20 @@ export const makeGuess = async (req: Request, res: Response, next: NextFunction)
         return next(err)
       }
 
-      const { feedback, gameWon, timeTaken } = result
-      return res.json({ letterFeedback: feedback, gameWon, ...(gameWon ? { timeTaken } : {}) })
+      const response: GuessResponse = {
+        letterFeedback: result.feedback,
+        gameWon: result.gameWon,
+        ...(result.gameWon && result.timeTaken ? { timeTaken: result.timeTaken } : {}),
+      }
+
+      return res.json(response)
     })
   } catch (err) {
     next(err)
   }
 }
 
-export const revealCorrectWord = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+export const revealCorrectWord: AsyncRouteHandler = async (req, res, next) => {
   try {
     if (!req.session.game) {
       return res.status(400).json({ error: 'No active game session.' })
@@ -92,14 +106,15 @@ export const revealCorrectWord = async (req: Request, res: Response, next: NextF
         return next(err)
       }
 
-      return res.json(correctWord)
+      const response: RevealWordResponse = { correctWord }
+      return res.json(response)
     })
   } catch (err) {
     next(err)
   }
 }
 
-export const getGameStatus = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+export const getGameStatus: AsyncRouteHandler = async (req, res, next) => {
   try {
     const game = gameSessionService.retrieveSessionGameStatus(req)
 
@@ -109,16 +124,13 @@ export const getGameStatus = async (req: Request, res: Response, next: NextFunct
 
     const { rules, guesses, state = 'playing', winningFeedback = null, timeTaken } = game
 
-    const response: Record<string, unknown> = {
+    const response: GameStatusResponse = {
       gameStarted: true,
       rules,
       guesses,
       state,
       winningFeedback: state === 'win' ? winningFeedback : null,
-    }
-
-    if (state === 'win' && timeTaken != null) {
-      response.timeTaken = timeTaken
+      ...(state === 'win' && timeTaken ? { timeTaken } : {}),
     }
 
     return res.json(response)
@@ -127,7 +139,7 @@ export const getGameStatus = async (req: Request, res: Response, next: NextFunct
   }
 }
 
-export const deleteGameSession = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+export const deleteGameSession: AsyncRouteHandler = async (req, res, next) => {
   try {
     if (req.session?.game) {
       gameSessionService.destroySession(req, (err) => {

@@ -5,6 +5,5 @@ export default async function loadWords(): Promise<string[]> {
     'https://raw.githubusercontent.com/dwyl/english-words/refs/heads/master/words_dictionary.json'
   )
   const payload = (await res.json()) as Record<string, number>
-
   return Object.keys(payload)
 }

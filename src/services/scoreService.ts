@@ -1,7 +1,7 @@
 import formatTime from '../lib/formatTime'
-import { API, HighScoreDocument, GameRules } from '../types'
+import { API, HighScoreDocument, GameRules, FormattedScore } from '../types'
 
-export function calculateTimeTaken(startTime: number, endTime: number): number {
+export function calculateTimeTaken(startTime: number, endTime: number) {
   const timeTakenMs = endTime - startTime
   return Math.floor(timeTakenMs / 1000)
 }
@@ -25,14 +25,6 @@ export function createScore(
     timeTaken: formattedTime,
     rules,
   })
-}
-
-interface FormattedScore {
-  name: string
-  guessCount: number
-  timeTaken: string
-  wordLength: number
-  noLetterDuplicate: string
 }
 
 export async function getLeaderboard(api: API, filters = {}): Promise<FormattedScore[]> {

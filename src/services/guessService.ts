@@ -20,8 +20,10 @@ export function handleGuess(guessedWord: string, game: SessionGame): GuessResult
   if (gameWon) {
     const endTime = Date.now()
     game.endTime = endTime
+
     const timeTakenInSeconds = calculateTimeTaken(game.startTime, endTime)
     const formattedTime = formatTime(timeTakenInSeconds)
+
     result.timeTaken = formattedTime
     result.timeTakenInSeconds = timeTakenInSeconds
   }

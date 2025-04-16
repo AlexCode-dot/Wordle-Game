@@ -22,7 +22,33 @@ export interface SessionGame {
   endTime?: number
   rules: GameRules
   guesses: LetterFeedback[][]
-  state: string
+  state: 'setup' | 'playing' | 'win' | 'lose'
   winningFeedback?: LetterFeedback[]
   timeTaken?: string
+}
+
+export interface InitGameResult {
+  correctWord?: string
+  gameStarted: boolean
+  wordLength?: number
+  message?: string
+}
+
+export interface GuessResponse {
+  letterFeedback: LetterFeedback[]
+  gameWon: boolean
+  timeTaken?: string
+}
+
+export interface GameStatusResponse {
+  gameStarted: boolean
+  rules: GameRules
+  guesses: LetterFeedback[][]
+  state: 'setup' | 'playing' | 'win' | 'lose'
+  winningFeedback: LetterFeedback[] | null
+  timeTaken?: string
+}
+
+export interface RevealWordResponse {
+  correctWord: string
 }
