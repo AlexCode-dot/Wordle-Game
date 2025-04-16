@@ -10,7 +10,7 @@ const menu = [
     link: '/leaderboard',
   },
   {
-    label: 'ABOUT US',
+    label: 'ABOUT',
     id: 'about',
     link: '/about',
   },
