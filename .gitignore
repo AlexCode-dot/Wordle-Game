@@ -9,7 +9,8 @@ lerna-debug.log*
 
 node_modules
 styles.css.map
-dist
+dist/
+dist-server/
 dist-ssr
 *.local
 
