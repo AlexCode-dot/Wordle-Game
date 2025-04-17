@@ -8,6 +8,10 @@ export const submitScore =
     try {
       const { name } = req.body
 
+      if (typeof name !== 'string' || !/^[a-zA-Z0-9]{1,20}$/.test(name)) {
+        return res.status(400).json({ error: 'Name must be 1-20 characters and only contain letters and numbers.' })
+      }
+
       const game = req.session.game
 
       if (!game) {

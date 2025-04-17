@@ -8,7 +8,7 @@ describe('User gives up (Lose State)', () => {
   it('should show the correct word when user gives up', () => {
     cy.intercept('GET', '/api/games/correct-word', {
       statusCode: 200,
-      body: '"test"',
+      body: { correctWord: 'test' },
       headers: { 'Content-Type': 'application/json' },
     }).as('getCorrectWord')
 

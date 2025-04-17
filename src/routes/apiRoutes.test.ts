@@ -196,6 +196,54 @@ describe('POST /submit-score', () => {
     expect(response.body.error).toBe('Missing session data')
   })
 
+  it('returns 400 if name is empty', async () => {
+    function HighScoreMock(this: any, data: any) {
+      this.data = data
+    }
+    HighScoreMock.prototype.save = function () {
+      return Promise.resolve(this)
+    }
+    const app = createTestApp(HighScoreMock)
+    const agent = request.agent(app)
+    testWords = ['apple']
+    await agent.post('/games').send({ wordLength: 5, noLetterDuplicate: false })
+    await agent.post('/games/guesses').send({ guessedWord: 'apple' })
+    const response = await agent.post('/submit-score').send({ name: '' }).expect(400)
+    expect(response.body.error).toBe('Name must be 1-20 characters and only contain letters and numbers.')
+  })
+
+  it('returns 400 if name contains special characters', async () => {
+    function HighScoreMock(this: any, data: any) {
+      this.data = data
+    }
+    HighScoreMock.prototype.save = function () {
+      return Promise.resolve(this)
+    }
+    const app = createTestApp(HighScoreMock)
+    const agent = request.agent(app)
+    testWords = ['apple']
+    await agent.post('/games').send({ wordLength: 5, noLetterDuplicate: false })
+    await agent.post('/games/guesses').send({ guessedWord: 'apple' })
+    const response = await agent.post('/submit-score').send({ name: 'A&%#€' }).expect(400)
+    expect(response.body.error).toBe('Name must be 1-20 characters and only contain letters and numbers.')
+  })
+
+  it('returns 400 if name is longer than 20 characters', async () => {
+    function HighScoreMock(this: any, data: any) {
+      this.data = data
+    }
+    HighScoreMock.prototype.save = function () {
+      return Promise.resolve(this)
+    }
+    const app = createTestApp(HighScoreMock)
+    const agent = request.agent(app)
+    testWords = ['apple']
+    await agent.post('/games').send({ wordLength: 5, noLetterDuplicate: false })
+    await agent.post('/games/guesses').send({ guessedWord: 'apple' })
+    const response = await agent.post('/submit-score').send({ name: 'averylongnamethatisoverlimit' }).expect(400)
+    expect(response.body.error).toBe('Name must be 1-20 characters and only contain letters and numbers.')
+  })
+
   it('returns success true when session complete', async () => {
     function HighScoreMock(this: any, data: any) {
       this.data = data

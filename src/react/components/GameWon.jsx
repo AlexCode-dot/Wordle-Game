@@ -1,8 +1,9 @@
 import RenderGuessWordsFeedback from './GuessWordsFeedback.jsx'
 import { useGameWon } from '../hooks/useGameWon.js'
+import ErrorMessage from './ErrorMessage'
 
 function GameWon({ winningGuess, wordLength, guessCount, gameTime, restartGame }) {
-  const { name, handleNameChange, handlePostScore } = useGameWon()
+  const { name, error, handleNameChange, handlePostScore } = useGameWon()
 
   return (
     <div className="win-page">
@@ -23,6 +24,8 @@ function GameWon({ winningGuess, wordLength, guessCount, gameTime, restartGame }
         value={name}
         onChange={handleNameChange}
       />
+      <p className="win-page__character-counter">{name.length}/20 characters</p>
+      <ErrorMessage error={error} />
       <div className="win-page__btn-container">
         <button className="win-page__btn-restart" onClick={restartGame}>
           Restart game
