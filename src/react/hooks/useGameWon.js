@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import postScore from '../API/PostScore.js'
+import postScore from '../api/PostScore.js'
 
 export function useGameWon() {
   const [name, setName] = useState('')
