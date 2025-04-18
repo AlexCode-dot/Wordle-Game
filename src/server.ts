@@ -11,7 +11,10 @@ const api: API = {
 
 async function startServer() {
   const app = await initApp(api)
-  app.listen(5080)
+  const port = process.env.PORT || 5080
+  app.listen(port, () => {
+    console.log(`✅ Server listening on port ${port}`)
+  })
 }
 
 startServer()
