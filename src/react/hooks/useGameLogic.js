@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { startGameApi } from '../API/FetchGameStatus.js'
-import validateGuessApi from '../API/FetchGuessFeedback.js'
-import fetchCorrectWord from '../API/FetchCorrectWord.js'
-import { getGameStatus } from '../API/FetchGameSession.js'
-import removeGameApi from '../API/RemoveGame.js'
+import { startGameApi } from '../api/FetchGameStatus.js'
+import validateGuessApi from '../api/FetchGuessFeedback.js'
+import fetchCorrectWord from '../api/FetchCorrectWord.js'
+import { getGameStatus } from '../api/FetchGameSession.js'
+import removeGameApi from '../api/RemoveGame.js'
 
 export function useGameLogic() {
   const [gameState, setGameState] = useState('setup')

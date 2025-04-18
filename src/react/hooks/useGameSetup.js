@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useWordLengths } from '../API/FetchWordLengths.js'
+import { useWordLengths } from '../api/FetchWordLengths.js'
 
 export function useGameSetup(onStart) {
   const { wordLengths, error: fetchError } = useWordLengths()
