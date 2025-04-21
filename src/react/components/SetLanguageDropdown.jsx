@@ -1,7 +1,7 @@
 function SetLanguageDropdown({ language, setLanguage }) {
   return (
-    <label className="game-setup__dropdown-label">
-      Choose word language:
+    <div>
+      <label className="game-setup__dropdown-label">Choose word language:</label>
       <select
         name="language"
         className="game-setup__dropdown-select"
@@ -11,7 +11,7 @@ function SetLanguageDropdown({ language, setLanguage }) {
         <option value="en">English</option>
         <option value="sv">Swedish</option>
       </select>
-    </label>
+    </div>
   )
 }
 

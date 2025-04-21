@@ -7,12 +7,23 @@
   align-items: center;
   padding-bottom: 30px;
 
+  @media (max-width: 600px) {
+    padding: 12px;
+    padding-bottom: 20px;
+  }
+
   &__title {
     text-align: center;
     color: white;
     font-size: 36px;
     margin-top: 58px;
     margin-bottom: 78px;
+
+    @media (max-width: 600px) {
+      font-size: 26px;
+      margin-top: 30px;
+      margin-bottom: 40px;
+    }
   }
 
   &__dropdown-label {
@@ -21,6 +32,11 @@
     color: white;
     font-weight: 300;
     margin-bottom: 5px;
+
+    @media (max-width: 600px) {
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
   }
 
   &__dropdown-select {
@@ -34,6 +50,14 @@
     color: white;
     cursor: pointer;
     margin-bottom: 74px;
+
+    @media (max-width: 600px) {
+      width: 180px;
+      height: 34px;
+      font-size: 13px;
+      padding: 6px;
+      margin-bottom: 40px;
+    }
   }
 
   &__dropdown-item {
@@ -46,30 +70,43 @@
     display: flex;
     align-items: center;
     margin-bottom: 100px;
+
+    @media (max-width: 600px) {
+      margin-bottom: 50px;
+    }
   }
 
   &__checkbox-label {
     color: white;
     font-size: 20px;
-    font-weight: 300px;
+    font-weight: 300;
     margin-left: 12px;
+
+    @media (max-width: 600px) {
+      font-size: 14px;
+      margin-left: 8px;
+    }
   }
 
   &__checkbox-value {
     width: 32px;
     height: 32px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
     border-radius: 4px;
     position: relative;
     cursor: pointer;
     border: 1px solid #ccc;
     transition: background-color 0.3s;
+
+    @media (max-width: 600px) {
+      width: 24px;
+      height: 24px;
+    }
   }
 
   &__checkbox-value:checked {
     background-color: #424549;
+    border-color: #424549;
   }
 
   &__checkbox-value:checked::after {
@@ -79,10 +116,12 @@
     left: 8px;
     font-size: 18px;
     color: white;
-  }
 
-  &__checkbox-value:checked {
-    border-color: #424549;
+    @media (max-width: 600px) {
+      top: 2px;
+      left: 6px;
+      font-size: 14px;
+    }
   }
 
   &__button {
@@ -98,6 +137,12 @@
     &:hover {
       cursor: pointer;
       background-color: #41a06a;
+    }
+
+    @media (max-width: 600px) {
+      font-size: 28px;
+      padding: 8px 50px;
+      margin-bottom: 15px;
     }
   }
 }

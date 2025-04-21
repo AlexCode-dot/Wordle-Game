@@ -14,6 +14,9 @@
       <li>Visual feedback for guesses (green/yellow/red)</li>
       <li>Persistent highscore submission upon win</li>
       <li>Game state persists across reloads using sessions</li>
+      <li>Support for multiple languages (English and Swedish)</li>
+      <li>Dynamically selects between remote and local wordlists based on environment config (with fallback support)</li>
+      <li>Configurable word source via environment variable</li>
     </ul>
   </section>
 
@@ -26,6 +29,7 @@
       <li><strong>Templating:</strong> Handlebars</li>
       <li><strong>Testing:</strong> Jest, Supertest, Cypress</li>
       <li><strong>Session:</strong> express-session</li>
+      <li><strong>Word Loading:</strong> Custom loader supports both local `.json` and remote word APIs (TXT/JSON)</li>
     </ul>
   </section>
 
@@ -46,24 +50,39 @@
   </section>
 
   <section class="about-page__section">
-  <h2 class="about-page__subtitle">Developer Highlights</h2>
-  <ul class="about-page__list">
-    <li>Modular architecture with clean separation of backend controllers, session helpers, and frontend components</li>
-    <li>Custom React hooks (for example, <code>useGameLogic</code>, <code>useGuessLogic</code>) manage gameplay logic</li>
-    <li>Leaderboard data is fetched from MongoDB and filterable by word length and duplication rules</li>
-    <li><strong>TypeScript</strong> is being used on the backend for improved type safety and maintainability</li>
-    <li>The app is fully tested with <strong>Jest</strong> (for unit/integration tests) and <strong>Cypress</strong> (for end-to-end tests) to ensure reliability and stability</li>
-  </ul>
+    <h2 class="about-page__subtitle">Developer Highlights</h2>
+    <ul class="about-page__list">
+      <li>Modular architecture with clean separation of backend controllers, session helpers, and frontend components</li>
+      <li>Custom React hooks (for example, <code>useGameLogic</code>, <code>useGuessLogic</code>) manage gameplay logic</li>
+      <li>Leaderboard data is fetched from MongoDB and filterable by word length and duplication rules</li>
+      <li><strong>TypeScript</strong> is being used on the backend for improved type safety and maintainability</li>
+      <li>The app is fully tested with <strong>Jest</strong> (for unit/integration tests) and <strong>Cypress</strong> (for end-to-end tests) to ensure reliability and stability</li>
+    </ul>
   </section>
 
+  <section class="about-page__section">
+    <h2 class="about-page__subtitle">Wordlist & Language Configuration</h2>
+    <p class="about-page__text">
+      The app allows dynamic selection of word sources and languages:
+    </p>
+    <ul class="about-page__list">
+      <li><strong>Languages supported:</strong> English, Swedish</li>
+      <li><strong>Sources:</strong> Either local JSON files or external remote APIs</li>
+      <li>Controlled via <code>.env</code> variable: <code>WORD_SOURCE=local</code> or <code>remote</code></li>
+      <li>Remote fallback automatically handled if fetch fails</li>
+    </ul>
+    <p class="about-page__text">
+      This makes the game flexible for testing, deployment, and localization.
+    </p>
+  </section>
 
   <section class="about-page__section">
     <h2 class="about-page__subtitle">Purpose of the Project</h2>
     <p class="about-page__text">
       This project was built to practice fullstack development, explore session handling and persistence, and implement secure game logic. It also includes responsive design, testable backend logic, and database interaction.
     </p>
-     <p class="about-page__text">
-    This project not only helped me practice fullstack development but also allowed me to gain hands-on experience with session handling, state persistence, and building secure game logic. It pushed me to explore modern testing frameworks, backend optimization, and front-end state management, all while creating a responsive and scalable application.
-  </p>
+    <p class="about-page__text">
+      This project not only helped me practice fullstack development but also allowed me to gain hands-on experience with session handling, state persistence, and building secure game logic. It pushed me to explore modern testing frameworks, backend optimization, and front-end state management, all while creating a responsive and scalable application.
+    </p>
   </section>
 </main>
