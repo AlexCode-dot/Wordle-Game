@@ -1,5 +1,5 @@
 import { startNewGame, saveGuess, retrieveSessionGameStatus, destroySession } from './gameSessionService'
-
+import { GameRules } from '../types'
 import { describe, it, expect } from '@jest/globals'
 import { Request } from 'express'
 
@@ -7,7 +7,7 @@ describe('gameSessionService', () => {
   it('startNewGame sets a new session with game data', () => {
     const req = { session: {} } as unknown as Request
 
-    const settings = { wordLength: 5, noLetterDuplicate: true }
+    const settings: GameRules = { wordLength: 5, noLetterDuplicate: true, language: 'en' }
     const status = { correctWord: 'apple' }
 
     startNewGame(req, status, settings)

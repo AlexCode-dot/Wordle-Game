@@ -3,12 +3,12 @@ import { describe, it, expect } from '@jest/globals'
 
 describe('getWord()', () => {
   it("should return 'No matching word found.' when words list is empty", () => {
-    const output = getWord([], 3, false)
+    const output = getWord([], 3, false, 'en')
     expect(output).toEqual('No matching word found.')
   })
 
   it("should return 'No matching word found.' when no suitable word exists", () => {
-    const output = getWord(['cykla'], 3, false)
+    const output = getWord(['cykla'], 3, false, 'en')
     expect(output).toEqual('No matching word found.')
   })
 
@@ -16,11 +16,11 @@ describe('getWord()', () => {
     const originalMathRandom = Math.random
     Math.random = () => 0
 
-    const output = getWord(['test', 'mage', 'bok'], 4, false)
+    const output = getWord(['test', 'mage', 'bok'], 4, false, 'en')
     expect(output).toBe('test')
 
     Math.random = () => 0.99
-    const output2 = getWord(['test', 'mage', 'bok'], 4, false)
+    const output2 = getWord(['test', 'mage', 'bok'], 4, false, 'en')
     expect(output2).toBe('mage')
 
     Math.random = originalMathRandom
@@ -30,7 +30,7 @@ describe('getWord()', () => {
     const originalMathRandom = Math.random
     Math.random = () => 0
 
-    const output = getWord(['jagar', 'cykla'], 5, true)
+    const output = getWord(['jagar', 'cykla'], 5, true, 'en')
     expect(output).toBe('cykla')
 
     Math.random = originalMathRandom
@@ -40,18 +40,18 @@ describe('getWord()', () => {
     const originalMathRandom = Math.random
     Math.random = () => 0
 
-    const output = getWord(['jagar', 'cykla'], 5, false)
+    const output = getWord(['jagar', 'cykla'], 5, false, 'en')
     expect(output).toBe('jagar')
 
     Math.random = () => 0.99
-    const output2 = getWord(['jagar', 'cykla'], 5, false)
+    const output2 = getWord(['jagar', 'cykla'], 5, false, 'en')
     expect(output2).toBe('cykla')
 
     Math.random = originalMathRandom
   })
 
   it('should clean special characters and spaces before validation', () => {
-    const output = getWord(['c ykl-a!'], 5, false)
+    const output = getWord(['c ykl-a!'], 5, false, 'en')
     expect(output).toEqual('cykla')
   })
 })

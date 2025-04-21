@@ -1,5 +1,5 @@
 import initApp from './app'
-import loadWords from './services/fetchWordList'
+import { loadWords } from './services/fetchWordList'
 import HighScore from './models/HighScore'
 import './mongoose.js'
 import { API } from './types'

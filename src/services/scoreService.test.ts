@@ -20,7 +20,11 @@ describe('createScore()', () => {
       loadWords: async () => [],
     } as unknown as API
 
-    const result = createScore(mockApi, 'Alex', 3, 'melon', 1000, 2000, 1, { wordLength: 5, noLetterDuplicate: true })
+    const result = createScore(mockApi, 'Alex', 3, 'melon', 1000, 2000, 1, {
+      wordLength: 5,
+      noLetterDuplicate: true,
+      language: 'en',
+    })
 
     expect(result.name).toBe('Alex')
     expect(result.guessCount).toBe(3)

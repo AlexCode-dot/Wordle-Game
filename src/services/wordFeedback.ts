@@ -1,8 +1,15 @@
-import { LetterFeedback } from '../types'
+import { LetterFeedback, WordLanguage } from '../types'
+import { getLetterSanitizer } from '../lib/letterSanitizer'
 
-export default function generateWordFeedback(guessWord: string, correctWord: string): LetterFeedback[] | false {
-  const guessArray = guessWord.replace(/\W/g, '').toLowerCase().split('')
-  const correctArray = correctWord.replace(/\W/g, '').toLowerCase().split('')
+export default function generateWordFeedback(
+  guessWord: string,
+  correctWord: string,
+  language: WordLanguage
+): LetterFeedback[] | false {
+  const sanitize = getLetterSanitizer(language)
+
+  const guessArray = guessWord.replace(sanitize, '').toLowerCase().split('')
+  const correctArray = correctWord.replace(sanitize, '').toLowerCase().split('')
 
   if (guessArray.length !== correctArray.length) return false
 

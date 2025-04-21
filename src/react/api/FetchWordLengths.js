@@ -1,25 +1,5 @@
-import { useState, useEffect } from 'react'
-
-export function useWordLengths() {
-  const [wordLengths, setWordLengths] = useState([])
-  const [error, setError] = useState(null)
-
-  useEffect(() => {
-    async function fetchWordLengths() {
-      try {
-        const response = await fetch('/api/words/lengths')
-        if (!response.ok) {
-          throw new Error('Failed to load word lengths.')
-        }
-        const lengths = await response.json()
-        setWordLengths(lengths)
-      } catch (err) {
-        setError('Failed to load word lengths.')
-      }
-    }
-
-    fetchWordLengths()
-  }, [])
-
-  return { wordLengths, error }
+export async function fetchWordLengths(lang = 'en') {
+  const res = await fetch(`/api/words/lengths?lang=${lang}`)
+  if (!res.ok) throw new Error('Failed to load word lengths')
+  return await res.json()
 }

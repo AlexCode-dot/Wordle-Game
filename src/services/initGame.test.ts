@@ -1,7 +1,7 @@
 import initGame from './initGame'
 import { describe, it, expect } from '@jest/globals'
 import type { Model } from 'mongoose'
-import type { HighScoreDocument, API } from '../types'
+import type { HighScoreDocument, API, GameRules } from '../types'
 
 const dummyHighScore = {} as unknown as Model<HighScoreDocument>
 
@@ -17,7 +17,7 @@ const mockApiEmpty: API = {
 
 describe('initGame', () => {
   it('should start the game and return correct word data', async () => {
-    const gameSettings = { wordLength: 5, noLetterDuplicate: true }
+    const gameSettings: GameRules = { wordLength: 5, noLetterDuplicate: true, language: 'en' }
     const result = await initGame(mockApi, gameSettings)
 
     expect(result.gameStarted).toBe(true)
@@ -26,7 +26,7 @@ describe('initGame', () => {
   })
 
   it('should handle no matching word found', async () => {
-    const gameSettings = { wordLength: 10, noLetterDuplicate: true }
+    const gameSettings: GameRules = { wordLength: 10, noLetterDuplicate: true, language: 'en' }
     const result = await initGame(mockApiEmpty, gameSettings)
 
     expect(result.gameStarted).toBe(false)

@@ -5,7 +5,8 @@ import { SessionGame, GuessResult } from '../types'
 
 export function handleGuess(guessedWord: string, game: SessionGame): GuessResult | { error: string } {
   const correctWord = game.correctWord
-  const feedback = wordFeedBack(guessedWord, correctWord)
+  const language = game.rules.language
+  const feedback = wordFeedBack(guessedWord, correctWord, language)
 
   if (!feedback) {
     return { error: 'Your guess was not valid, try another word.' }

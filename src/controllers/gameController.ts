@@ -10,17 +10,20 @@ import {
   GameStatusResponse,
   RevealWordResponse,
   AsyncRouteHandler,
+  WordLanguage,
+  WordSource,
 } from '../types'
 
 export const startGame =
   (api: API): AsyncRouteHandler =>
   async (req, res, next) => {
     try {
-      const { wordLength, noLetterDuplicate } = req.body
+      const { wordLength, noLetterDuplicate, language } = req.body
 
       const gameSettings: GameRules = {
         wordLength: Number(wordLength),
         noLetterDuplicate: Boolean(noLetterDuplicate),
+        language,
       }
 
       const gameStatus: InitGameResult = await initGame(api, gameSettings)
@@ -44,7 +47,11 @@ export const getWordLengths =
   (api: API): AsyncRouteHandler =>
   async (req, res, next) => {
     try {
-      const words = await api.loadWords()
+      const lang = req.query.lang as WordLanguage
+      const source = process.env.WORD_SOURCE as WordSource
+
+      const words = await api.loadWords(source, lang)
+
       const wordLengths = [...new Set(words.map((word) => word.length))].sort((a, b) => a - b)
       return res.json(wordLengths)
     } catch (err) {

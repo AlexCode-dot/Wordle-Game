@@ -1,9 +1,27 @@
-import { fetch } from 'undici'
+import { wordsConfig } from '../lib/wordsConfig'
+import { parsePlainText, parseJsonWords } from '../lib/parseWords'
+import { WordLanguage, WordSource } from '../types'
 
-export default async function loadWords(): Promise<string[]> {
-  const res = await fetch(
-    'https://raw.githubusercontent.com/dwyl/english-words/refs/heads/master/words_dictionary.json'
-  )
-  const payload = (await res.json()) as Record<string, number>
-  return Object.keys(payload)
+export async function loadWords(
+  source: WordSource = (process.env.WORD_SOURCE as WordSource) || 'local',
+  lang: WordLanguage
+): Promise<string[]> {
+  const config = wordsConfig[lang]
+
+  if (source === 'local') {
+    console.log(`📦 Loaded words from LOCAL source (${lang})`)
+    return config.local
+  }
+
+  try {
+    const res = await fetch(config.remote)
+    if (!res.ok) throw new Error('Remote fetch failed')
+
+    console.log(`🌐 Loaded words from REMOTE source (${lang})`)
+
+    return config.isPlainText ? parsePlainText(await res.text()) : parseJsonWords(await res.json())
+  } catch {
+    console.warn(`⚠️ Remote fallback to local (${lang})`)
+    return config.local
+  }
 }

@@ -1,6 +1,7 @@
 export interface GameRules {
   wordLength: number
   noLetterDuplicate: boolean
+  language: 'en' | 'sv'
 }
 
 export interface GuessResult {

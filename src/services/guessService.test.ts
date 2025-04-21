@@ -7,7 +7,7 @@ describe('handleGuess() without mocks', () => {
     const game: SessionGame = {
       correctWord: 'apple',
       startTime: 1000,
-      rules: { wordLength: 5, noLetterDuplicate: true },
+      rules: { wordLength: 5, noLetterDuplicate: true, language: 'en' },
       guesses: [],
       state: 'playing',
     }
@@ -20,7 +20,7 @@ describe('handleGuess() without mocks', () => {
     const game: SessionGame = {
       correctWord: 'apple',
       startTime: 1000,
-      rules: { wordLength: 5, noLetterDuplicate: false },
+      rules: { wordLength: 5, noLetterDuplicate: false, language: 'en' },
       guesses: [],
       state: 'playing',
     }
@@ -40,7 +40,7 @@ describe('handleGuess() without mocks', () => {
     const game: SessionGame = {
       correctWord: 'apple',
       startTime: 1000,
-      rules: { wordLength: 5, noLetterDuplicate: true },
+      rules: { wordLength: 5, noLetterDuplicate: true, language: 'en' },
       guesses: [],
       state: 'playing',
     }

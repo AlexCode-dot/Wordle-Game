@@ -1,8 +1,18 @@
-export default function getWord(wordsList: string[], wordLength: number, noLetterDuplicate: boolean): string {
+import { getLetterSanitizer } from '../lib/letterSanitizer'
+import { WordLanguage } from '../types'
+
+export default function getWord(
+  wordsList: string[],
+  wordLength: number,
+  noLetterDuplicate: boolean,
+  lang: WordLanguage
+): string {
   if (wordsList.length === 0) return 'No matching word found.'
 
+  const sanitize = getLetterSanitizer(lang)
+
   const filteredWords = wordsList
-    .map((word) => word.replace(/\W/g, '').toLowerCase())
+    .map((word) => word.replace(sanitize, '').toLowerCase())
     .filter((word) => {
       const isCorrectLength = word.length === wordLength
       const hasUniqueLetters = new Set(word).size === word.length

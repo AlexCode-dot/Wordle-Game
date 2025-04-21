@@ -1,6 +1,7 @@
 import React from 'react'
 import WordLengthDropdown from './WordLengthDropdown'
 import { useGameSetup } from '../hooks/useGameSetup.js'
+import SetLanguageDropdown from './SetLanguageDropdown.jsx'
 
 function GameSetup({ onStart }) {
   const {
@@ -10,6 +11,8 @@ function GameSetup({ onStart }) {
     selectedLength,
     setSelectedLength,
     noDuplicates,
+    language,
+    setLanguage,
     setNoDuplicates,
     handleStart,
   } = useGameSetup(onStart)
@@ -17,6 +20,7 @@ function GameSetup({ onStart }) {
   return (
     <div className="game-setup">
       <h2 className="game-setup__title">Choose game settings</h2>
+      <SetLanguageDropdown language={language} setLanguage={setLanguage} />
       {fetchError && <p className="error-message">{fetchError}</p>}
       <WordLengthDropdown lengths={wordLengths} selectedLength={selectedLength} onLengthChange={setSelectedLength} />
       <div className="game-setup__checkbox-container">

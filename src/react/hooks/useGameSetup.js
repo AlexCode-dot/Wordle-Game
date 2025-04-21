@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { useWordLengths } from '../api/FetchWordLengths.js'
+import { useWordLengths } from './useWordLengths.js'
 
 export function useGameSetup(onStart) {
-  const { wordLengths, error: fetchError } = useWordLengths()
+  const [language, setLanguage] = useState('en')
+  const { wordLengths, error: fetchError } = useWordLengths(language)
   const [error, setError] = useState(null)
   const [selectedLength, setSelectedLength] = useState('')
   const [noDuplicates, setNoDuplicates] = useState(false)
@@ -18,6 +19,7 @@ export function useGameSetup(onStart) {
     const rules = {
       wordLength: Number(selectedLength),
       noLetterDuplicate: noDuplicates,
+      language,
     }
 
     const result = await onStart(rules)
@@ -34,6 +36,8 @@ export function useGameSetup(onStart) {
     setSelectedLength,
     noDuplicates,
     setNoDuplicates,
+    language,
+    setLanguage,
     handleStart,
   }
 }
