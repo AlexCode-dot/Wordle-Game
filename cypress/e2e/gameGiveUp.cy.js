@@ -1,7 +1,7 @@
 describe('User gives up (Lose State)', () => {
   beforeEach(() => {
     cy.visit('/')
-    cy.get('.game-setup__dropdown-select').select('4')
+    cy.get('[data-cy=word-length-select]').select('4')
     cy.get('.game-setup__button').click()
   })
 
@@ -13,7 +13,6 @@ describe('User gives up (Lose State)', () => {
     }).as('getCorrectWord')
 
     cy.get('.game-play__give-up-btn').click()
-
     cy.wait('@getCorrectWord')
 
     cy.get('.game-lose__title').should('contain', 'You lost!')

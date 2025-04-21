@@ -9,6 +9,7 @@ function WordLengthDropdown({ lengths, selectedLength, onLengthChange }) {
       <select
         className="game-setup__dropdown-select"
         id="wordLength"
+        data-cy="word-length-select"
         value={selectedLength}
         onChange={(e) => onLengthChange(e.target.value)}
       >

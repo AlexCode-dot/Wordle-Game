@@ -1,6 +1,6 @@
 describe('Win state persists after reload', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/api/words/lengths', {
+    cy.intercept('GET', '/api/words/lengths?lang=en', {
       statusCode: 200,
       body: [3],
     }).as('getWordLengths')
@@ -20,6 +20,7 @@ describe('Win state persists after reload', () => {
         rules: {
           wordLength: 3,
           noLetterDuplicate: true,
+          language: 'en',
         },
       },
     }).as('gameStatus')
@@ -40,7 +41,7 @@ describe('Win state persists after reload', () => {
 
 describe('Playing state persists after reload', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/api/words/lengths', {
+    cy.intercept('GET', '/api/words/lengths?lang=en', {
       statusCode: 200,
       body: [4],
     }).as('getWordLengths')
@@ -49,9 +50,11 @@ describe('Playing state persists after reload', () => {
       statusCode: 200,
       body: {
         gameStarted: true,
+        state: 'playing',
         rules: {
           wordLength: 4,
           noLetterDuplicate: false,
+          language: 'en',
         },
         guesses: [
           [
@@ -73,7 +76,6 @@ describe('Playing state persists after reload', () => {
             { letter: 'd', result: 'incorrect' },
           ],
         ],
-        state: 'playing',
         winningFeedback: null,
       },
     }).as('gameStatus')
@@ -90,15 +92,15 @@ describe('Playing state persists after reload', () => {
     cy.get('.guess-row')
       .eq(0)
       .within(() => {
-        cy.get('.guess-row__letter-box').eq(0).should('contain', 'S').should('have.class', 'guess-misplaced')
-        cy.get('.guess-row__letter-box').eq(1).should('contain', 'D').should('have.class', 'guess-incorrect')
+        cy.get('.guess-row__letter-box').eq(0).should('contain', 'S').and('have.class', 'guess-misplaced')
+        cy.get('.guess-row__letter-box').eq(1).should('contain', 'D').and('have.class', 'guess-incorrect')
       })
 
     cy.get('.guess-row')
       .eq(1)
       .within(() => {
-        cy.get('.guess-row__letter-box').eq(1).should('contain', 'A').should('have.class', 'guess-correct')
-        cy.get('.guess-row__letter-box').eq(2).should('contain', 'S').should('have.class', 'guess-correct')
+        cy.get('.guess-row__letter-box').eq(1).should('contain', 'A').and('have.class', 'guess-correct')
+        cy.get('.guess-row__letter-box').eq(2).should('contain', 'S').and('have.class', 'guess-correct')
       })
   })
 })

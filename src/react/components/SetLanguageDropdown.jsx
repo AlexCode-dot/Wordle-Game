@@ -5,6 +5,7 @@ function SetLanguageDropdown({ language, setLanguage }) {
       <select
         name="language"
         className="game-setup__dropdown-select"
+        data-cy="language-select"
         value={language}
         onChange={(e) => setLanguage(e.target.value)}
       >

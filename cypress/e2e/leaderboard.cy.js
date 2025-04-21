@@ -1,6 +1,6 @@
 describe('Leaderboard filtering - no results', () => {
   it('shows a message when no scores match the filters', () => {
-    cy.intercept('GET', '/api/words/lengths', {
+    cy.intercept('GET', '/api/words/lengths?lang=en', {
       statusCode: 200,
       body: [4, 5],
     }).as('getLengths')
@@ -24,11 +24,6 @@ describe('Leaderboard filtering - no results', () => {
 
 describe('Score submission failure', () => {
   it('shows an error if submitting score fails', () => {
-    cy.intercept('POST', '/api/submit-score', {
-      statusCode: 500,
-      body: { error: 'Database failed' },
-    }).as('submitFail')
-
     cy.intercept('POST', '/api/games/guesses', {
       statusCode: 200,
       body: {
@@ -42,9 +37,15 @@ describe('Score submission failure', () => {
       },
     }).as('win')
 
+    cy.intercept('POST', '/api/submit-score', {
+      statusCode: 500,
+      body: { error: 'Database failed' },
+    }).as('submitFail')
+
     cy.visit('/')
-    cy.get('.game-setup__dropdown-select').select('3')
+    cy.get('[data-cy=word-length-select]').select('3')
     cy.get('.game-setup__button').click()
+
     cy.get('.game-play__input-placeholder').type('hey')
     cy.get('.game-play__input-btn').click()
     cy.wait('@win')

@@ -1,21 +1,22 @@
 describe('Full game win flow', () => {
   it('lets the user win and view the mocked leaderboard', () => {
-    // Intercept word lengths
-    cy.intercept('GET', '/api/words/lengths', {
+    // Mock word lengths for EN
+    cy.intercept('GET', '/api/words/lengths?lang=en', {
       statusCode: 200,
       body: [3, 5, 6],
     }).as('getWordLengths')
 
-    // Intercept starting the game
+    // Mock starting the game
     cy.intercept('POST', '/api/games', {
       statusCode: 201,
       body: {
         gameStarted: true,
         wordLength: 3,
+        language: 'en',
       },
     }).as('startGame')
 
-    // Intercept correct guess (simulate win)
+    // Mock correct guess (win)
     cy.intercept('POST', '/api/games/guesses', {
       statusCode: 200,
       body: {
@@ -29,27 +30,20 @@ describe('Full game win flow', () => {
       },
     }).as('guessCorrect')
 
-    // Intercept score submission
+    // Mock score submission
     cy.intercept('POST', '/api/submit-score', {
       statusCode: 200,
       body: { success: true },
     }).as('submitScore')
 
-    // Intercept leaderboard fetch
-    cy.intercept('GET', '/leaderboard', (req) => {
-      req.reply((res) => {
-        res.send(`
-            <html>
-              <h1 class="leaderboard__title">Leaderboard</h1>
-            </html>
-          `)
-      })
-    }).as('getLeaderboard')
+    // Mock leaderboard page
+    cy.intercept('GET', '/leaderboard').as('getLeaderboard')
 
+    // Start test
     cy.visit('/')
     cy.wait('@getWordLengths')
 
-    cy.get('.game-setup__dropdown-select').select('3')
+    cy.get('[data-cy=word-length-select]').select('3')
     cy.get('.game-setup__button').click()
     cy.wait('@startGame')
 
@@ -64,6 +58,7 @@ describe('Full game win flow', () => {
     cy.get('.win-page__btn-leaderboard').click()
     cy.wait('@submitScore')
 
+    cy.url().should('include', '/leaderboard')
     cy.wait('@getLeaderboard')
     cy.get('.leaderboard__title').should('contain', 'Leaderboard')
   })

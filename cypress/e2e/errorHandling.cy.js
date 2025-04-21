@@ -1,13 +1,9 @@
 describe('Game setup validation', () => {
   it('should show error if user tries to start without selecting word length', () => {
     cy.visit('/')
-
-    cy.get('.game-setup__dropdown-select').should('exist')
-
+    cy.get('[data-cy=word-length-select]').should('exist')
     cy.get('.game-setup__button').click()
-
     cy.url().should('include', '/')
-
     cy.get('.error-message').should('be.visible').and('contain', 'Please select a word length')
   })
 })
@@ -15,11 +11,10 @@ describe('Game setup validation', () => {
 describe('Guess length validation', () => {
   it('shows error if guess is shorter than required length', () => {
     cy.visit('/')
-    cy.get('.game-setup__dropdown-select').select('5')
+    cy.get('[data-cy=word-length-select]').select('5')
     cy.get('.game-setup__button').click()
     cy.get('.game-play__input-placeholder').type('ab')
     cy.get('.game-play__input-btn').click()
-
     cy.get('.error-message').should('be.visible').and('contain', 'Your guess must match the word length.')
   })
 })
@@ -31,22 +26,18 @@ it('shows error if backend responds with 500', () => {
   }).as('failGuess')
 
   cy.visit('/')
-  cy.get('.game-setup__dropdown-select').select('5')
+  cy.get('[data-cy=word-length-select]').select('5')
   cy.get('.game-setup__button').click()
-
   cy.get('.game-play__input-placeholder').type('apple')
   cy.get('.game-play__input-btn').click()
-
   cy.wait('@failGuess')
-
   cy.get('.error-message').should('be.visible').and('contain', 'Something went wrong')
 })
 
 describe('Win page name input validation', () => {
   beforeEach(() => {
     cy.visit('/')
-
-    cy.get('.game-setup__dropdown-select').select('3')
+    cy.get('[data-cy=word-length-select]').select('3')
     cy.get('.game-setup__button').click()
 
     cy.intercept('POST', '/api/games/guesses', {
@@ -87,7 +78,6 @@ describe('Win page name input validation', () => {
     cy.get('.win-page__input-placeholder').type('ValidName')
     cy.get('.win-page__btn-leaderboard').click()
     cy.wait('@submitScore')
-
     cy.url().should('include', '/leaderboard')
   })
 })
