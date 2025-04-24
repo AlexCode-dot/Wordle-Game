@@ -28,7 +28,6 @@ export function useGameLogic() {
           setWordLength(result.data.rules.wordLength)
           setGuessCount(result.data.guesses?.length || 0)
 
-          console.log('Formatted Guesses:', result.data.guesses)
           setGuessWordsFeedback(result.data.guesses)
         } else {
           setGameState('setup')

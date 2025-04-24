@@ -61,10 +61,32 @@ export default async function initApp(api: API) {
     }
   })
 
+  if (process.env.NODE_ENV === 'test') {
+    app.get('/api/force-error', (req, res, next) => {
+      const err = new Error('Simulated API error')
+      ;(err as any).status = 500
+      next(err)
+    })
+
+    app.get('/throw-error', (req, res, next) => {
+      const err = new Error('Simulated SSR crash')
+      ;(err as any).status = 500
+      next(err)
+    })
+  }
+
   app.use(sessionConfig())
   app.use(express.json())
   app.use('/api', apiRoutes(api))
   app.use('/static', express.static('static'))
+
+  app.use((req: Request, res: Response, next: NextFunction): void => {
+    if (req.originalUrl.startsWith('/api/')) {
+      res.status(404).json({ error: 'Endpoint not found', status: 404 })
+    } else {
+      renderErrorPage(res, 404, 'Site could not be found', 'Site does not exist')
+    }
+  })
 
   app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     console.error('A server error occurred:', err)

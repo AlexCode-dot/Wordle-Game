@@ -9,7 +9,7 @@ export default async function validateGuessApi(guessedWord) {
     const data = await response.json()
 
     if (!response.ok) {
-      return { success: false, error: data.error || 'Something went wrong.' }
+      return { success: false, error: data.error || 'Something went wrong, please ry again later.' }
     }
 
     return { success: true, data }

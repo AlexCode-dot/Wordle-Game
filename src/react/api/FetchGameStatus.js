@@ -9,7 +9,7 @@ export async function startGameApi(rules) {
     const data = await response.json()
 
     if (!response.ok) {
-      return { success: false, error: data.message || 'Something went wrong.' }
+      return { success: false, error: data.message || 'Something went wrong, please ry again later.' }
     }
 
     return { success: true, data }

@@ -138,3 +138,37 @@ describe('getLeaderboard()', () => {
     expect(result.map((r) => r.timeTaken)).toEqual(['00:05', '00:10', '00:15'])
   })
 })
+
+describe('Error handling', () => {
+  it('returns 404 JSON for unknown API route', async () => {
+    const app = await initApp(baseApi)
+    const res = await request(app).get('/api/unknown-endpoint')
+    expect(res.status).toBe(404)
+    expect(res.body).toEqual({ error: 'Endpoint not found', status: 404 })
+  })
+
+  it('returns 404 rendered error page for unknown frontend route', async () => {
+    const app = await initApp(baseApi)
+    const res = await request(app).get('/nonexistent-page')
+    expect(res.status).toBe(404)
+    expect(res.text).toContain('Site could not be found')
+  })
+
+  it('returns 500 JSON for simulated API error', async () => {
+    const app = await initApp(baseApi)
+    const res = await request(app).get('/api/force-error')
+    expect(res.status).toBe(500)
+    expect(res.body).toEqual({
+      error: 'Simulated API error',
+      status: 500,
+    })
+  })
+
+  it('returns 500 rendered error page for SSR failure', async () => {
+    const app = await initApp(baseApi)
+    const res = await request(app).get('/throw-error')
+    expect(res.status).toBe(500)
+    expect(res.text).toContain('Technical error')
+    expect(res.text).toContain('Simulated SSR crash')
+  })
+})

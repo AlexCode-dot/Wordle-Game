@@ -11,7 +11,7 @@ async function postScore(name) {
     console.log(data)
 
     if (!response.ok) {
-      return { success: false, error: data.message || 'Something went wrong.' }
+      return { success: false, error: data.message || 'Something went wrong, please ry again later.' }
     }
 
     return { success: true, data }
