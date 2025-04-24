@@ -6,3 +6,8 @@ export interface API {
   loadWords: (source: WordSource, lang: WordLanguage) => Promise<string[]>
   HighScore: Model<HighScoreDocument>
 }
+
+export interface AppOptions {
+  api: API
+  dbConnected: boolean
+}

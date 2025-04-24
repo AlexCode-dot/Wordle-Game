@@ -121,30 +121,33 @@ export const revealCorrectWord: AsyncRouteHandler = async (req, res, next) => {
   }
 }
 
-export const getGameStatus: AsyncRouteHandler = async (req, res, next) => {
-  try {
-    const game = gameSessionService.retrieveSessionGameStatus(req)
+export const getGameStatus =
+  (dbConnected: boolean): AsyncRouteHandler =>
+  async (req, res, next) => {
+    try {
+      const game = gameSessionService.retrieveSessionGameStatus(req)
 
-    if (!game) {
-      return res.json({ gameStarted: false })
+      if (!game) {
+        return res.json({ gameStarted: false, dbConnected })
+      }
+
+      const { rules, guesses, state = 'playing', winningFeedback = null, timeTaken } = game
+
+      const response: GameStatusResponse & { dbConnected: boolean } = {
+        gameStarted: true,
+        rules,
+        guesses,
+        state,
+        winningFeedback: state === 'win' ? winningFeedback : null,
+        ...(state === 'win' && timeTaken ? { timeTaken } : {}),
+        dbConnected,
+      }
+
+      return res.json(response)
+    } catch (err) {
+      next(err)
     }
-
-    const { rules, guesses, state = 'playing', winningFeedback = null, timeTaken } = game
-
-    const response: GameStatusResponse = {
-      gameStarted: true,
-      rules,
-      guesses,
-      state,
-      winningFeedback: state === 'win' ? winningFeedback : null,
-      ...(state === 'win' && timeTaken ? { timeTaken } : {}),
-    }
-
-    return res.json(response)
-  } catch (err) {
-    next(err)
   }
-}
 
 export const deleteGameSession: AsyncRouteHandler = async (req, res, next) => {
   try {

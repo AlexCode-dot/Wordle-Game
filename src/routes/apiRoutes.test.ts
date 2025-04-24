@@ -11,7 +11,7 @@ beforeEach(() => {
   testWords = []
 })
 
-function createTestApp(highScoreModel?: any) {
+function createTestApp(highScoreModel?: any, dbConnected: boolean = true) {
   function FallbackHighScore(this: any) {}
   FallbackHighScore.prototype.save = function () {
     return Promise.resolve()
@@ -31,7 +31,7 @@ function createTestApp(highScoreModel?: any) {
       saveUninitialized: true,
     })
   )
-  app.use(apiRoutes(mockApi))
+  app.use(apiRoutes({ api: mockApi, dbConnected }))
   return app
 }
 
@@ -62,7 +62,10 @@ describe('GET /games/status', () => {
     testWords = ['apple']
     const app = createTestApp()
     const response = await request(app).get('/games/status').expect(200)
-    expect(response.body).toEqual({ gameStarted: false })
+    expect(response.body).toEqual({
+      gameStarted: false,
+      dbConnected: expect.any(Boolean),
+    })
   })
 
   it('returns game status with session data if game exists', async () => {

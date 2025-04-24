@@ -8,9 +8,9 @@ import apiRoutes from './routes/apiRoutes'
 import sessionConfig from './lib/sessionConfig'
 import * as scoreService from './services/scoreService'
 import { buildScoreFilters } from './services/leaderboardFilters'
-import { API } from './types'
+import { AppOptions } from './types'
 
-export default async function initApp(api: API) {
+export default async function initApp({ api, dbConnected }: AppOptions) {
   const app = express()
 
   app.engine(
@@ -46,17 +46,21 @@ export default async function initApp(api: API) {
   })
 
   app.get('/leaderboard', async (req, res, next) => {
+    const { filters, activeFilters } = buildScoreFilters(req.query)
+
     try {
-      const { filters, activeFilters } = buildScoreFilters(req.query)
-      const formattedScores = await scoreService.getLeaderboard(api, filters)
-      const uniqueWordLengths = await scoreService.getUniqueWordLengths(api)
+      const allScores = dbConnected ? await scoreService.getLeaderboard(api, filters) : []
+
+      const wordLengths = dbConnected ? await scoreService.getUniqueWordLengths(api) : []
 
       renderPage(res, 'leaderboard', {
-        allScores: formattedScores,
+        allScores,
         activeFilters,
-        wordLengths: uniqueWordLengths,
+        wordLengths,
+        dbConnected,
       })
     } catch (err) {
+      console.warn('⚠️ Error rendering leaderboard page:', err)
       next(err)
     }
   })
@@ -75,9 +79,9 @@ export default async function initApp(api: API) {
     })
   }
 
-  app.use(sessionConfig())
+  app.use(sessionConfig(dbConnected))
   app.use(express.json())
-  app.use('/api', apiRoutes(api))
+  app.use('/api', apiRoutes({ api, dbConnected }))
   app.use('/static', express.static('static'))
 
   app.use((req: Request, res: Response, next: NextFunction): void => {

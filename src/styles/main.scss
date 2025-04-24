@@ -7,6 +7,7 @@
 @use 'gameLose.scss';
 @use 'leaderboard.scss';
 @use 'aboutPage.scss';
+@use 'errorPage.scss';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
 body {
@@ -42,6 +43,16 @@ body {
   transition: opasity 1s;
   animation-duration: 400ms;
   animation-iteration-count: 3;
+}
+
+.db__warning-message {
+  background: #fff3cd;
+  color: #856404;
+  padding: 12px;
+  border: 1px solid #ffeeba;
+  margin-bottom: 20px;
+  border-radius: 20px 20px 0px 0px;
+  text-align: center;
 }
 
 @keyframes blink {

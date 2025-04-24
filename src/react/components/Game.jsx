@@ -16,10 +16,12 @@ function Game() {
     validateWin,
     endGame,
     restartGame,
+    dbWarning,
   } = useGameLogic()
 
   return (
     <>
+      {dbWarning && <div className="db__warning-message">{dbWarning}</div>}
       {gameState === 'setup' && <GameSetup onStart={startGame} />}
       {gameState === 'playing' && (
         <GamePlay

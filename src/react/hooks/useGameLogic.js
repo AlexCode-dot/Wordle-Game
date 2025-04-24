@@ -12,29 +12,40 @@ export function useGameLogic() {
   const [guessCount, setGuessCount] = useState(0)
   const [guessWordsFeedback, setGuessWordsFeedback] = useState([])
   const [gameTime, setGameTime] = useState(null)
+  const [dbWarning, setDbWarning] = useState(null)
 
   useEffect(() => {
     async function restoreSession() {
       try {
         const result = await getGameStatus()
 
-        if (result.success && result.data.gameStarted) {
-          setGameState(result.data.state || 'playing')
-
-          if (result.data.state === 'win' && result.data.winningFeedback) {
-            setWinningGuess([result.data.winningFeedback])
-            setGameTime(result.data.timeTaken)
+        if (result.success) {
+          if (result.data.dbConnected === false) {
+            setDbWarning('⚠️ Score saving and leaderboard access are currently unavailable due to server issues.')
+          } else {
+            setDbWarning(null)
           }
-          setWordLength(result.data.rules.wordLength)
-          setGuessCount(result.data.guesses?.length || 0)
 
-          setGuessWordsFeedback(result.data.guesses)
+          if (result.data.gameStarted) {
+            setGameState(result.data.state || 'playing')
+
+            if (result.data.state === 'win' && result.data.winningFeedback) {
+              setWinningGuess([result.data.winningFeedback])
+              setGameTime(result.data.timeTaken)
+            }
+            setWordLength(result.data.rules.wordLength)
+            setGuessCount(result.data.guesses?.length || 0)
+            setGuessWordsFeedback(result.data.guesses)
+          } else {
+            setGameState('setup')
+          }
         } else {
           setGameState('setup')
         }
       } catch (err) {
         console.error('Restore session failed:', err)
         setGameState('setup')
+        setDbWarning('⚠️ Could not connect to the game server.')
       }
     }
     restoreSession()
@@ -90,5 +101,6 @@ export function useGameLogic() {
     validateWin,
     endGame,
     restartGame,
+    dbWarning,
   }
 }

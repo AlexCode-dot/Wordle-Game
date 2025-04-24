@@ -1,7 +1,7 @@
 import initApp from './app'
 import { loadWords } from './services/fetchWordList'
 import HighScore from './models/HighScore'
-import './mongoose.js'
+import { connectToDatabase, isDatabaseConnected } from './mongoose'
 import { API } from './types'
 
 const api: API = {
@@ -10,7 +10,9 @@ const api: API = {
 }
 
 async function startServer() {
-  const app = await initApp(api)
+  await connectToDatabase()
+  const app = await initApp({ api, dbConnected: isDatabaseConnected() })
+
   const port = process.env.PORT || 5080
   app.listen(port, () => {
     console.log(`✅ Server listening on port ${port}`)

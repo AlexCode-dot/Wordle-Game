@@ -1,3 +1,8 @@
+{{#unless dbConnected}}
+  <div class="db__warning-message">
+    ⚠️ Leaderboard data is temporarily unavailable due to a server issue.
+  </div>
+{{/unless}}
 <h1 class="leaderboard__title">Leaderboard</h1>
 <form method="GET" action="/leaderboard" class="leaderboard__filter-form">
   <div class="leaderboard__filter-items-wrapper">
