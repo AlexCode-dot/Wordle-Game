@@ -4,6 +4,9 @@ A fullstack TypeScript-based Wordle clone supporting multiple languages (English
 dynamic word sources (local/remote), game state persistence via sessions,
 and leaderboard scoring with MongoDB.
 
+## Live
+[https://wordle-game-pymh.onrender.com/]
+
 ## Features
 
 - Word guessing game with real-time feedback
